@@ -1,2 +1,3 @@
 Django
 pyitunes
+django_extensions
