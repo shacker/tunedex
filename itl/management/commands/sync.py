@@ -64,6 +64,7 @@ class Command(BaseCommand):
                 album_artist=artist,
                 composer=artist,
                 year=song.year,
+                loved=song.loved,
                 album=album,
                 genre=genre,
                 kind=kind,

@@ -42,6 +42,7 @@ class Track(models.Model):
     kind = models.ForeignKey(Kind, blank=True, null=True)
     size = models.IntegerField(null=True, blank=True)
     bit_rate = models.IntegerField(null=True, blank=True)
+    loved = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
