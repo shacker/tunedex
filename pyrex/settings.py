@@ -59,7 +59,7 @@ ROOT_URLCONF = 'pyrex.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['pyrex/templates', ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -85,7 +85,7 @@ DATABASES = {
     }
 }
 
-LIBRARY_PATH = "/Users/shacker/Music/iTunes/iTunes Library.xml"
+LIBRARY_PATH = "/Users/shacker/Music/iTunes/iTunes Music Library.xml"
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators

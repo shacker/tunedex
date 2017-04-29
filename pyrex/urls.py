@@ -16,6 +16,12 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
+from itl import views
+
 urlpatterns = [
+    url(r'^$', views.home, name='home'),
+    url(r'^albums/$', views.AlbumListView.as_view(), name='albums'),
+    url(r'^albums/(?P<pk>\d+)$', views.AlbumDetailView.as_view(), name='album_detail'),
+
     url(r'^admin/', admin.site.urls),
 ]
