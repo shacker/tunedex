@@ -59,15 +59,18 @@ class Command(BaseCommand):
                 kind, created = Kind.objects.get_or_create(name=song.kind)
 
             track, created = Track.objects.get_or_create(
-                title=song.name,
-                artist=artist,
-                album_artist=artist,
-                composer=artist,
-                year=song.year,
-                loved=song.loved,
-                album=album,
-                genre=genre,
-                kind=kind,
-                size=song.size,
-                bit_rate=song.bit_rate,
+                persistent_id=song.persistent_id,
+                defaults={
+                    'title': song.name,
+                    'artist': artist,
+                    'album_artist': artist,
+                    'composer': artist,
+                    'year': song.year,
+                    'loved': song.loved,
+                    'album': album,
+                    'genre': genre,
+                    'kind': kind,
+                    'size': song.size,
+                    'bit_rate': song.bit_rate,
+                }
             )

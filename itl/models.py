@@ -32,6 +32,7 @@ class Kind(models.Model):
 
 
 class Track(models.Model):
+    persistent_id = models.CharField(max_length=255, blank=True)
     title = models.CharField(default="Unknown", max_length=255)
     artist = models.ForeignKey(Artist, blank=True, null=True)
     album_artist = models.ForeignKey(Artist, blank=True, null=True, related_name="track_album_artist")
