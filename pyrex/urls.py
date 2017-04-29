@@ -1,18 +1,3 @@
-"""pyrex URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/1.11/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  url(r'^$', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  url(r'^$', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.conf.urls import url, include
-    2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
-"""
 from django.conf.urls import url
 from django.contrib import admin
 
@@ -23,12 +8,14 @@ urlpatterns = [
     url(r'^albums/$', views.AlbumListView.as_view(), name='albums'),
     url(r'^albums/(?P<pk>\d+)$', views.AlbumDetailView.as_view(), name='album_detail'),
 
+    url(r'^artists/$', views.ArtistListView.as_view(), name='artists'),
+    url(r'^artists/(?P<pk>\d+)$', views.ArtistDetailView.as_view(), name='artist_detail'),
+
     url(r'^tracks/$', views.TrackListView.as_view(), name='tracks'),
     url(r'^tracks/(?P<pk>\d+)$', views.TrackDetailView.as_view(), name='track_detail'),
 
     url(r'^kinds/$', views.KindListView.as_view(), name='kinds'),
     url(r'^kinds/(?P<pk>\d+)$', views.KindDetailView.as_view(), name='kind_detail'),
-
 
     url(r'^admin/', admin.site.urls),
 ]

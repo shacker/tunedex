@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Artist List</h1>
+
+    {% if artist_list %}
+    <ul>
+
+      {% for artist in artist_list %}
+      <li>
+        <a href="{% url 'artist_detail' artist.id %}">{{ artist.name }}</a>
+      </li>
+      {% endfor %}
+
+    </ul>
+    {% else %}
+      <p>There are no artists in the library.</p>
+    {% endif %}
+{% endblock %}

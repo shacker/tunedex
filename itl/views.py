@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views import generic
 from django.db.models.functions import Lower
 
-from itl.models import Album, Track, Kind
+from itl.models import Album, Track, Kind, Artist
 
 
 def home(request):
@@ -18,6 +18,17 @@ class AlbumListView(generic.ListView):
 
 class AlbumDetailView(generic.DetailView):
     model = Album
+
+
+class ArtistListView(generic.ListView):
+    model = Artist
+
+    def get_queryset(self):
+        return Artist.objects.order_by(Lower('name'))
+
+
+class ArtistDetailView(generic.DetailView):
+    model = Artist
 
 
 class TrackListView(generic.ListView):
