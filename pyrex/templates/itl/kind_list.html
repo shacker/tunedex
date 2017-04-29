@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Kind List ({{kind_list.count}})</h1>
+
+    {% if kind_list %}
+    <ul>
+
+      {% for kind in kind_list %}
+      <li>
+        <a href="{% url 'kind_detail' kind.id %}">{{ kind.name }}</a> ({{kind.track_set.all.count}} tracks)
+      </li>
+      {% endfor %}
+
+    </ul>
+    {% else %}
+      <p>There are no kinds in the library.</p>
+    {% endif %}
+{% endblock %}

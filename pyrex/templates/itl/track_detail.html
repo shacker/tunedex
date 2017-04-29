@@ -2,7 +2,10 @@
 
 {% block content %}
     <h1>Track: {{ track.title }}</h1>
-    <h2>Artist: {{ track.get_artist }}</h2>
+    <p>Artist: {{ track.get_artist }}</p>
+    {% if track.album %}
+    <p>Album: <a href="{% url 'album_detail' track.album.id %}">{{ track.album }}</a></p>
+    {% endif %}
 
 
 {% endblock %}

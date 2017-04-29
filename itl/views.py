@@ -2,8 +2,7 @@ from django.shortcuts import render
 from django.views import generic
 from django.db.models.functions import Lower
 
-
-from itl.models import Album, Track
+from itl.models import Album, Track, Kind
 
 
 def home(request):
@@ -30,3 +29,11 @@ class TrackListView(generic.ListView):
 
 class TrackDetailView(generic.DetailView):
     model = Track
+
+
+class KindListView(generic.ListView):
+    model = Kind
+
+
+class KindDetailView(generic.DetailView):
+    model = Kind

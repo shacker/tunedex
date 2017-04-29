@@ -26,5 +26,9 @@ urlpatterns = [
     url(r'^tracks/$', views.TrackListView.as_view(), name='tracks'),
     url(r'^tracks/(?P<pk>\d+)$', views.TrackDetailView.as_view(), name='track_detail'),
 
+    url(r'^kinds/$', views.KindListView.as_view(), name='kinds'),
+    url(r'^kinds/(?P<pk>\d+)$', views.KindDetailView.as_view(), name='kind_detail'),
+
+
     url(r'^admin/', admin.site.urls),
 ]
