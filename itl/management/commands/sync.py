@@ -63,7 +63,6 @@ class Command(BaseCommand):
                 defaults={
                     'title': song.name,
                     'artist': artist,
-                    'album_artist': artist,
                     'composer': artist,
                     'year': song.year,
                     'loved': song.loved,

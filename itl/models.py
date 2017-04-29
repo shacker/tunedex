@@ -35,7 +35,6 @@ class Track(models.Model):
     persistent_id = models.CharField(max_length=255, blank=True)
     title = models.CharField(default="Unknown", max_length=255)
     artist = models.ForeignKey(Artist, blank=True, null=True)
-    album_artist = models.ForeignKey(Artist, blank=True, null=True, related_name="track_album_artist")
     composer = models.ForeignKey(Artist, blank=True, null=True, related_name="track_composer")
     year = models.PositiveSmallIntegerField(null=True, blank=True)
     album = models.ForeignKey(Album, blank=True, null=True)
@@ -44,6 +43,14 @@ class Track(models.Model):
     size = models.IntegerField(null=True, blank=True)
     bit_rate = models.IntegerField(null=True, blank=True)
     loved = models.BooleanField(default=False)
+
+    def get_artist(self):
+        if self.artist:
+            return self.artist
+        elif self.album.artist:
+            return self.album.artist
+        else:
+            return None
 
     def __str__(self):
         return self.title

@@ -23,5 +23,8 @@ urlpatterns = [
     url(r'^albums/$', views.AlbumListView.as_view(), name='albums'),
     url(r'^albums/(?P<pk>\d+)$', views.AlbumDetailView.as_view(), name='album_detail'),
 
+    url(r'^tracks/$', views.TrackListView.as_view(), name='tracks'),
+    url(r'^tracks/(?P<pk>\d+)$', views.TrackDetailView.as_view(), name='track_detail'),
+
     url(r'^admin/', admin.site.urls),
 ]
