@@ -52,7 +52,9 @@ class Command(BaseCommand):
             if song.artist:
                 artist, created = Artist.objects.get_or_create(name=song.artist)
             if song.album:
-                album, created = Album.objects.get_or_create(title=song.album, artist=artist, year=song.year)
+                album, created = Album.objects.get_or_create(
+                    title=song.album, artist=artist,
+                    defaults={'year': song.year})  # Quasi-bug: Each song will reset year on album, which may not be correct
             if song.genre:
                 genre, created = Genre.objects.get_or_create(name=song.genre)
             if song.kind:
