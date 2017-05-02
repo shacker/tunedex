@@ -11,6 +11,7 @@ def home(request):
 
 class AlbumListView(generic.ListView):
     model = Album
+    paginate_by = 100
 
     def get_queryset(self):
         return Album.objects.order_by(Lower('title'))
@@ -22,6 +23,7 @@ class AlbumDetailView(generic.DetailView):
 
 class ArtistListView(generic.ListView):
     model = Artist
+    paginate_by = 100
 
     def get_queryset(self):
         return Artist.objects.order_by(Lower('name'))
@@ -33,6 +35,7 @@ class ArtistDetailView(generic.DetailView):
 
 class TrackListView(generic.ListView):
     model = Track
+    paginate_by = 100
 
     def get_queryset(self):
         return Track.objects.order_by(Lower('title'))
@@ -44,6 +47,7 @@ class TrackDetailView(generic.DetailView):
 
 class KindListView(generic.ListView):
     model = Kind
+    paginate_by = 100
 
 
 class KindDetailView(generic.DetailView):

@@ -14,6 +14,9 @@
       {% endfor %}
 
     </ul>
+
+    {% include 'include/pagination.html' %}
+
     {% else %}
       <p>There are no albums in the library.</p>
     {% endif %}
