@@ -17,7 +17,7 @@ class Command(BaseCommand):
 
         lib_path = settings.LIBRARY_PATH
         pickle_file = "itl.p"
-        expiry = 60 * 60  # Refresh pickled file if older than
+        expiry = 60 * 60 * 24 * 30  # Refresh pickled file if older than
         epoch_time = int(time.time())  # Now
 
         # Generate pickled version of database if stale or doesn't exist
@@ -46,23 +46,30 @@ class Command(BaseCommand):
         'track_type', 'work', 'year']
         '''
 
-        for song in itl.getPlaylist('2016').tracks:
-            print("[{t}] {a} - {n}".format(t=song.track_number, a=song.artist, n=song.name))
+        # for song in itl.getPlaylist('2016').tracks:
+        tracks = []
+        for id, song in itl.songs.items():
+            try:
+                print("{a} - {n}".format(a=song.artist, n=song.name))
+            except:
+                print("Track missing metadata")
 
-            if song.artist:
-                artist, created = Artist.objects.get_or_create(name=song.artist)
+            artist = None
+            if song.artist or song.album_artist:
+                artist_str = song.artist or song.album_artist
+                artist, created = Artist.objects.get_or_create(name=artist_str)
             if song.album:
+                # Quasi-bug: Each song will reset year on album, which may not be correct
                 album, created = Album.objects.get_or_create(
-                    title=song.album, artist=artist,
-                    defaults={'year': song.year})  # Quasi-bug: Each song will reset year on album, which may not be correct
+                    title=song.album,
+                    defaults={'artist': artist, 'year': song.year})
             if song.genre:
                 genre, created = Genre.objects.get_or_create(name=song.genre)
             if song.kind:
                 kind, created = Kind.objects.get_or_create(name=song.kind)
 
-            track, created = Track.objects.get_or_create(
-                persistent_id=song.persistent_id,
-                defaults={
+            data = {
+                    'persistent_id': song.persistent_id,
                     'title': song.name,
                     'artist': artist,
                     'composer': artist,
@@ -74,4 +81,6 @@ class Command(BaseCommand):
                     'size': song.size,
                     'bit_rate': song.bit_rate,
                 }
-            )
+            tracks.append(Track(**data))
+
+        Track.objects.bulk_create(tracks)
