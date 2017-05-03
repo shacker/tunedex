@@ -1,5 +1,3 @@
-{% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,22 +9,19 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Pyrex - iTunes Deep Dive</title>
+    <title>SB Admin 2 - Bootstrap Admin Theme</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="{% static "theme/vendor/bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
+    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- MetisMenu CSS -->
-    <link href="{% static "theme/vendor/metisMenu/metisMenu.min.css" %}" rel="stylesheet">
+    <link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="{% static "theme/dist/css/sb-admin-2.css" %}" rel="stylesheet">
-
-    <!-- Morris Charts CSS -->
-    <link href="{% static "theme/vendor/morrisjs/morris.css" %}" rel="stylesheet">
+    <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="{% static "theme/vendor/font-awesome/css/font-awesome.min.css" %}" rel="stylesheet" type="text/css">
+    <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -50,7 +45,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="{% url 'home' %}">Pyrex</a>
+                <a class="navbar-brand" href="index.html">SB Admin v2.0</a>
             </div>
             <!-- /.navbar-header -->
 
@@ -271,33 +266,15 @@
                             <div class="input-group custom-search-form">
                                 <input type="text" class="form-control" placeholder="Search...">
                                 <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
+                                    <button class="btn btn-default" type="button">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
                             </div>
                             <!-- /input-group -->
                         </li>
                         <li>
-                            <a href="{% url 'home' %}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-files-o fa-fw"></i> Listings<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="{% url 'albums' %}">Albums</a>
-                                </li>
-                                <li>
-                                    <a href="{% url 'tracks' %}">Tracks</a>
-                                </li>
-                                <li>
-                                    <a href="{% url 'artists' %}">Artists</a>
-                                </li>
-                                <li>
-                                    <a href="{% url 'kinds' %}">Kinds</a>
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
+                            <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
@@ -312,7 +289,7 @@
                             <!-- /.nav-second-level -->
                         </li>
                         <li>
-                            <a href="{% static "theme/pagestables.html" %}"><i class="fa fa-table fa-fw"></i> Tables</a>
+                            <a href="tables.html"><i class="fa fa-table fa-fw"></i> Tables</a>
                         </li>
                         <li>
                             <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>
@@ -371,19 +348,18 @@
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
-                        <li>
+                        <li class="active">
                             <a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="static/theme/pages/blank.html">Blank Page</a>
+                                    <a class="active" href="blank.html">Blank Page</a>
                                 </li>
                                 <li>
-                                    <a href="static/theme/pages/login.html">Login Page</a>
+                                    <a href="login.html">Login Page</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
-
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
@@ -391,9 +367,18 @@
             <!-- /.navbar-static-side -->
         </nav>
 
+        <!-- Page Content -->
         <div id="page-wrapper">
-            {% block content %}
-            {% endblock content %}
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Blank</h1>
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
         </div>
         <!-- /#page-wrapper -->
 
@@ -401,23 +386,17 @@
     <!-- /#wrapper -->
 
     <!-- jQuery -->
-
-
-    <script src="{% static "theme/vendor/jquery/jquery.min.js" %}"></script>
+    <script src="../vendor/jquery/jquery.min.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="{% static "theme/vendor/bootstrap/js/bootstrap.min.js" %}"></script>
+    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
 
     <!-- Metis Menu Plugin JavaScript -->
-    <script src="{% static "theme/vendor/metisMenu/metisMenu.min.js" %}"></script>
-
-    <!-- Morris Charts JavaScript -->
-    <script src="{% static "theme/vendor/raphael/raphael.min.js" %}"></script>
-    <script src="{% static "theme/vendor/morrisjs/morris.min.js" %}"></script>
-    <script src="{% static "theme/data/morris-data.js" %}"></script>
+    <script src="../vendor/metisMenu/metisMenu.min.js"></script>
 
     <!-- Custom Theme JavaScript -->
-    <script src="{% static "theme/dist/js/sb-admin-2.js" %}></script>
+    <script src="../dist/js/sb-admin-2.js"></script>
+
 </body>
 
 </html>
