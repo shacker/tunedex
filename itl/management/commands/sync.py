@@ -46,9 +46,9 @@ class Command(BaseCommand):
         'track_type', 'work', 'year']
         '''
 
-        # for song in itl.getPlaylist('2016').tracks:
-        tracks = []
-        for id, song in itl.songs.items():
+        for song in itl.getPlaylist('Grateful Dead').tracks:
+        # tracks = []
+        # for id, song in itl.songs.items():
             try:
                 print("{a} - {n}".format(a=song.artist, n=song.name))
             except:
@@ -68,19 +68,22 @@ class Command(BaseCommand):
             if song.kind:
                 kind, created = Kind.objects.get_or_create(name=song.kind)
 
-            data = {
-                    'persistent_id': song.persistent_id,
-                    'title': song.name,
-                    'artist': artist,
-                    'composer': artist,
-                    'year': song.year,
-                    'loved': song.loved,
-                    'album': album,
-                    'genre': genre,
-                    'kind': kind,
-                    'size': song.size,
-                    'bit_rate': song.bit_rate,
-                }
-            tracks.append(Track(**data))
+            track_data = {
+                'title': song.name,
+                'artist': artist,
+                'composer': artist,
+                'year': song.year,
+                'loved': song.loved,
+                'album': album,
+                'genre': genre,
+                'kind': kind,
+                'size': song.size,
+                'bit_rate': song.bit_rate,
+            }
+            # tracks.append(Track(**data))
+            track, created = Track.objects.update_or_create(
+                persistent_id=song.persistent_id,
+                defaults=track_data,
+            )
 
-        Track.objects.bulk_create(tracks)
+        # Track.objects.bulk_create(tracks)
