@@ -3,9 +3,8 @@
 {% block content %}
     <h1>Track: {{ track.title }}</h1>
     <p>Artist: {{ track.get_artist }}</p>
+    <p>Persistent ID: {{ track.persistent_id }}</p>
     {% if track.album %}
-    <p>Album: <a href="{% url 'album_detail' track.album.id %}">{{ track.album }}</a></p>
+        <p>Album: <a href="{% url 'album_detail' track.album.id %}">{{ track.album }}</a></p>
     {% endif %}
-
-
 {% endblock %}
