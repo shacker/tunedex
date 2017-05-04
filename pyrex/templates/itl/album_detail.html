@@ -7,7 +7,7 @@
     <h3>Tracks:</h3>
     <ul>
         {% for track in album.track_set.all %}
-            <li>{{ track.title }}</li>
+            <li><a href="{% url 'track_detail' track.id %}">{{ track.title }}</a></li>
         {% endfor %}
     </ul>
 
