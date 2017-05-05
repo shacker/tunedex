@@ -31,6 +31,13 @@ class Kind(models.Model):
         return self.name
 
 
+class Playlist(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+
 class Track(models.Model):
     persistent_id = models.CharField(max_length=255, blank=True)
     title = models.CharField(default="Unknown", max_length=255)
@@ -43,6 +50,8 @@ class Track(models.Model):
     size = models.IntegerField(null=True, blank=True)
     bit_rate = models.IntegerField(null=True, blank=True)
     loved = models.BooleanField(default=False)
+
+    playlists = models.ManyToManyField(Playlist, blank=True)
 
     def get_artist(self):
         if self.artist:

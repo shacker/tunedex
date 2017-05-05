@@ -128,4 +128,7 @@ STATICFILES_DIRS = [
 ]
 
 
-from pyrex.local import *
+try:
+    from pyrex.local import *
+except:
+    pass
