@@ -64,6 +64,10 @@ class Track(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        indexes = [
+            models.Index(fields=['persistent_id', ]),
+        ]
 # Add LOVED
 # total_time = None (Integer)
 # track_number = None (Integer)
