@@ -86,7 +86,8 @@ DATABASES = {
     }
 }
 
-LIBRARY_PATH = "/Users/shacker/Music/iTunes/iTunes Music Library.xml"
+# Override in local settings
+LIBRARY_PATH = "/Users/[username]/Music/iTunes/iTunes Music Library.xml"
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
