@@ -34,62 +34,60 @@ class Command(BaseCommand):
         'sample_rate', 'size', 'skip_count', 'skip_date', 'total_time', 'track_count', 'track_id', 'track_number',
         'track_type', 'work', 'year']
         '''
-        #
-        # # for song in itl.getPlaylist('GD Best').tracks:
+
         # for id, song in itl.songs.items():
-        #     try:
-        #         print("{a} - {n}".format(a=song.artist, n=song.name))
-        #     except:
-        #         print("Track missing metadata")
-        #
-        #     artist = album = genre = kind = None
-        #
-        #     if song.artist or song.album_artist:
-        #         artist_str = song.artist or song.album_artist
-        #         artist, created = Artist.objects.get_or_create(name=artist_str)
-        #
-        #     if song.album:
-        #         # Quasi-bug: Each song will reset year on album, which may not be correct
-        #         album, created = Album.objects.get_or_create(
-        #             title=song.album,
-        #             defaults={'artist': artist, 'year': song.year})
-        #
-        #     if song.genre:
-        #         genre, created = Genre.objects.get_or_create(name=song.genre)
-        #
-        #     if song.kind:
-        #         kind, created = Kind.objects.get_or_create(name=song.kind)
-        #
-        #     track_data = {
-        #         'title': song.name,
-        #         'artist': artist,
-        #         'composer': artist,
-        #         'year': song.year,
-        #         'loved': song.loved,
-        #         'album': album,
-        #         'genre': genre,
-        #         'kind': kind,
-        #         'size': song.size,
-        #         'bit_rate': song.bit_rate,
-        #     }
-        #     # tracks.append(Track(**data))
-        #     track, created = Track.objects.update_or_create(
-        #         persistent_id=song.persistent_id,
-        #         defaults=track_data,
-        #     )
+
+        theset = ['Decade 1970s', 'Compilations', 'GD Best', ]
+        for pl in theset:
+            for song in itl.getPlaylist(pl).tracks:
+                try:
+                    print("{a} - {n}".format(a=song.artist, n=song.name))
+                except:
+                    print("Track missing metadata")
+
+                artist = album = genre = kind = None
+
+                if song.artist or song.album_artist:
+                    artist_str = song.artist or song.album_artist
+                    artist, created = Artist.objects.get_or_create(name=artist_str)
+
+                if song.album:
+                    # Quasi-bug: Each song will reset year on album, which may not be correct
+                    album, created = Album.objects.get_or_create(
+                        title=song.album,
+                        defaults={'artist': artist, 'year': song.year})
+
+                if song.genre:
+                    genre, created = Genre.objects.get_or_create(name=song.genre)
+
+                if song.kind:
+                    kind, created = Kind.objects.get_or_create(name=song.kind)
+
+                track_data = {
+                    'title': song.name,
+                    'artist': artist,
+                    'composer': artist,
+                    'year': song.year,
+                    'loved': song.loved,
+                    'album': album,
+                    'genre': genre,
+                    'kind': kind,
+                    'size': song.size,
+                    'bit_rate': song.bit_rate,
+                }
+                track, created = Track.objects.update_or_create(
+                    persistent_id=song.persistent_id,
+                    defaults=track_data,
+                )
 
         # Create playlists
-        playlists = itl.getPlaylistNames()
-        # playlists = [itl.getPlaylist('GD Best'), ]
+        # playlists = itl.getPlaylistNames()
+        playlists = [itl.getPlaylist('GD Best'), itl.getPlaylist('Compilations'), itl.getPlaylist('Decade 1970s'), ]
         print("\n{c} playlists found".format(c=len(playlists)))
         for p in playlists:
-            playlist, created = Playlist.objects.get_or_create(name=p)
-            if created:
-                print("Created playlist {0}".format(playlist.name))
-            print("Adding tracks to playlist {0}".format(playlist.name))
-            # In case tracks were deleted or re-ordered since last sync, delete and re-create all track refs
-            playlist.track_set.clear()
-            playlist_name = itl.getPlaylist(p)
-            for t in playlist_name.tracks:
-                track = Track.objects.get(persistent_id=t.persistent_id)
-                playlist.track_set.add(track)
+            playlist_name = p.name
+            playlist, created = Playlist.objects.get_or_create(name=playlist_name)
+            print("Adding tracks to playlist {0}".format(playlist_name))
+            persistent_ids = [t.persistent_id for t in p.tracks]
+            addtraks = Track.objects.filter(persistent_id__in=persistent_ids)
+            playlist.track_set.set(addtraks, clear=True)
