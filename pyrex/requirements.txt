@@ -1,3 +1,4 @@
 Django
 pyitunes
 django_extensions
+psycopg2
