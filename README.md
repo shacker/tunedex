@@ -37,3 +37,9 @@ To set up tables in a default sqlite3 database, just run:
 ./manage.py sync
 
 Depending on the size of your collection, this could be a *long* process - for me, it takes around 30 minutes to catalog a 98,000-track library.
+
+------
+
+Examples for creating custom queries from command line
+
+Examples for building modules for dashboard
