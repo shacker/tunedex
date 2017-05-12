@@ -4,16 +4,20 @@
     <h1>Album List</h1>
 
     {% if album_list %}
-    <ul>
-
-      {% for album in album_list %}
-      <li>
-        <a href="{% url 'album_detail' album.id %}">{{ album.title }}</a>
-        {% if album.artist %} ({{ album.artist }}){% endif %}
-      </li>
-      {% endfor %}
-
-    </ul>
+    <div class="table-responsive">
+      <table class="table table-striped">
+          <th>Album Title</th>
+          <th>Artist</th>
+          <th>Year</th>
+          {% for album in album_list %}
+          <tr>
+              <td><a href="{% url 'album_detail' album.id %}">{{ album.title }}</a></td>
+              <td>{{ album.artist }}</td>
+              <td>{{ album.year }}</td>
+          </tr>
+          {% endfor %}
+      </table>
+    </div>
 
     {% include 'include/pagination.html' %}
 

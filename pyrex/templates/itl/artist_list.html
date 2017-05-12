@@ -4,17 +4,21 @@
     <h1>Artist List</h1>
 
     {% if artist_list %}
-    <ul>
 
-      {% for artist in artist_list %}
-      <li>
-        <a href="{% url 'artist_detail' artist.id %}">{{ artist.name }}</a>
-      </li>
-      {% endfor %}
+    <div class="table-responsive">
+      <table class="table table-striped">
+          <th>Artist Name</th>
+          {% for artist in artist_list %}
+          <tr>
+              <td><a href="{% url 'artist_detail' artist.id %}">{{ artist.name }}</a></td>
+          </tr>
+          {% endfor %}
+      </table>
 
-    {% include 'include/pagination.html' %}
+      {% include 'include/pagination.html' %}
 
-    </ul>
+    </div>
+
     {% else %}
       <p>There are no artists in the library.</p>
     {% endif %}

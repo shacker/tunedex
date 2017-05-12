@@ -4,15 +4,19 @@
     <h1>Kind List ({{kind_list.count}})</h1>
 
     {% if kind_list %}
-    <ul>
 
-      {% for kind in kind_list %}
-      <li>
-        <a href="{% url 'kind_detail' kind.id %}">{{ kind.name }}</a> ({{kind.track_set.all.count}} tracks)
-      </li>
-      {% endfor %}
-
-    </ul>
+    <div class="table-responsive">
+      <table class="table table-striped">
+          <th>Kind</th>
+          <th>Track Count</th>
+          {% for kind in kind_list %}
+          <tr>
+              <td><a href="{% url 'kind_detail' kind.id %}">{{ kind.name }}</a></td>
+              <td>{{ kind.track_set.all.count }}</td>
+          </tr>
+          {% endfor %}
+      </table>
+    </div>
 
     {% include 'include/pagination.html' %}
 
