@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% block title %}{{ block.super }} Album: {{ album.artist }}, {{ album.title }}{% endblock title %}
+
 {% block content %}
     <h1>Album: {{ album.title }}</h1>
     <h2>Artist: <a href="{% url 'artist_detail' album.artist.id %}">{{ album.artist }}</a></h2>

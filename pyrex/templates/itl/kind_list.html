@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% block title %}{{ block.super }} List of Media Kinds{% endblock title %}
+
 {% block content %}
     <h1>Kind List ({{kind_list.count}})</h1>
 

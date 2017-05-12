@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% block title %}{{ block.super }} Playlist: {{ playlist.name }}{% endblock title %}
+
 {% block content %}
     <h1>Playlist "{{ playlist.name }}"</h1>
 
