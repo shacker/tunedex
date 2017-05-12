@@ -4,16 +4,20 @@
     <h1>Track List</h1>
 
     {% if track_list %}
-    <ul>
-
-      {% for track in track_list %}
-      <li>
-        <a href="{% url 'track_detail' track.persistent_id %}">{{ track.title }}</a>
-        ({{ track.get_artist }})
-      </li>
-      {% endfor %}
-
-    </ul>
+        <div class="table-responsive">
+          <table class="table table-striped">
+              <th>Track</th>
+              <th>Artist</th>
+              <th>Album</th>
+              {% for track in track_list %}
+              <tr>
+                  <td><a href="{% url 'track_detail' track.persistent_id %}">{{ track.title }}</a></td>
+                  <td>{{ track.get_artist }}</td>
+                  <td>{{ track.album }}</td>
+              </tr>
+              {% endfor %}
+          </table>
+        </div>
 
     {% include 'include/pagination.html' %}
 
