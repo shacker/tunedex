@@ -37,7 +37,8 @@ class Command(BaseCommand):
 
         # for id, song in itl.songs.items():
 
-        theset = ['Decade 1970s', 'Compilations', 'GD Best', ]
+        # theset = ['Decade 1970s', 'Compilations', 'GD Best', ]
+        theset = ['GD Best', ]
         for pl in theset:
             for song in itl.getPlaylist(pl).tracks:
                 try:
@@ -82,7 +83,8 @@ class Command(BaseCommand):
 
         # Create playlists
         # playlists = itl.getPlaylistNames()
-        playlists = [itl.getPlaylist('GD Best'), itl.getPlaylist('Compilations'), itl.getPlaylist('Decade 1970s'), ]
+        # playlists = [itl.getPlaylist('GD Best'), itl.getPlaylist('Compilations'), itl.getPlaylist('Decade 1970s'), ]
+        playlists = [itl.getPlaylist('GD Best'), ]
         print("\n{c} playlists found".format(c=len(playlists)))
         for p in playlists:
             playlist_name = p.name
