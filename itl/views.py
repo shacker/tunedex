@@ -5,12 +5,12 @@ from django.db.models.functions import Lower
 from itl.models import Album, Track, Kind, Artist
 
 
-def home(request):
+def dashboard(request):
     artists_count = Artist.objects.all().count()
     albums_count = Album.objects.all().count()
     tracks_count = Track.objects.all().count()
     playlists_count = 17
-    return render(request, 'home.html', locals(),)
+    return render(request, 'dashboard.html', locals(),)
 
 
 class AlbumListView(generic.ListView):
