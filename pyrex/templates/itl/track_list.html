@@ -8,7 +8,7 @@
 
       {% for track in track_list %}
       <li>
-        <a href="{% url 'track_detail' track.id %}">{{ track.title }}</a>
+        <a href="{% url 'track_detail' track.persistent_id %}">{{ track.title }}</a>
         ({{ track.get_artist }})
       </li>
       {% endfor %}
