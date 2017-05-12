@@ -39,7 +39,7 @@ class Playlist(models.Model):
 
 
 class Track(models.Model):
-    persistent_id = models.CharField(max_length=255, blank=True, primary_key=True)
+    persistent_id = models.CharField(max_length=255, blank=True)
     title = models.CharField(default="Unknown", max_length=255)
     artist = models.ForeignKey(Artist, blank=True, null=True)
     composer = models.ForeignKey(Artist, blank=True, null=True, related_name="track_composer")

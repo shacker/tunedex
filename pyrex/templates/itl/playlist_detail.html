@@ -1,19 +1,20 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Track List</h1>
+    <h1>Playlist "{{ playlist.name }}"</h1>
 
-    {% if track_list %}
+    {% if page_obj %}
         <div class="table-responsive">
           <table class="table table-striped">
               <th>Track</th>
               <th>Artist</th>
               <th>Album</th>
-              {% for track in track_list %}
+
+              {% for track in page_obj %}
               <tr>
                   <td><a href="{% url 'track_detail' track.id %}">{{ track.title }}</a></td>
-                  <td>{{ track.get_artist }}</td>
-                  <td>{{ track.album }}</td>
+                  <td><a href="{% url 'artist_detail' track.get_artist.id %}">{{ track.get_artist }}</a></td>
+                  <td><a href="{% url 'album_detail' track.album.id %}">{{ track.album }}</a></td>
               </tr>
               {% endfor %}
           </table>
@@ -22,6 +23,6 @@
     {% include 'include/pagination.html' %}
 
     {% else %}
-      <p>There are no tracks in the library.</p>
+      <p>There are no tracks in this playlist.</p>
     {% endif %}
 {% endblock %}

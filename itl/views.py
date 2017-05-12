@@ -1,8 +1,10 @@
 from django.shortcuts import render
-from django.views import generic
 from django.db.models.functions import Lower
+from django.views import generic
+from django.views.generic.detail import SingleObjectMixin
+from django.views.generic import ListView
 
-from itl.models import Album, Track, Kind, Artist
+from itl.models import Album, Track, Kind, Artist, Playlist
 
 
 def dashboard(request):
@@ -56,3 +58,26 @@ class KindListView(generic.ListView):
 
 class KindDetailView(generic.DetailView):
     model = Kind
+
+
+class PlaylistListView(generic.ListView):
+    model = Playlist
+
+
+class PlaylistDetailView(SingleObjectMixin, ListView):
+    model = Playlist
+
+    paginate_by = 100
+    template_name = "itl/playlist_detail.html"
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object(queryset=Playlist.objects.all())
+        return super(PlaylistDetailView, self).get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(PlaylistDetailView, self).get_context_data(**kwargs)
+        context['playlist'] = self.object
+        return context
+
+    def get_queryset(self):
+        return self.object.track_set.all()

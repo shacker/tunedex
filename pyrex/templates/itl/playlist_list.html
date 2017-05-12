@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Playlists</h1>
+
+    {% if playlist_list %}
+    <div class="table-responsive">
+      <table class="table table-striped">
+          <th>Name</th>
+          <th>Track count</th>
+          {% for playlist in playlist_list %}
+          <tr>
+              <td><a href="{% url 'playlist_detail' playlist.id %}">{{ playlist.name }}</a></td>
+              <td>{{ playlist.track_set.all.count }}</td>
+          </tr>
+          {% endfor %}
+      </table>
+    </div>
+
+    {% include 'include/pagination.html' %}
+
+    {% else %}
+      <p>There are no playlists in the library.</p>
+    {% endif %}
+{% endblock %}
