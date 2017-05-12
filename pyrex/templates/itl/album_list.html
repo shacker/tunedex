@@ -7,23 +7,23 @@
 
     {% if album_list %}
     <div class="table-responsive">
-      <table class="table table-striped">
-          <th>Album Title</th>
-          <th>Artist</th>
-          <th>Year</th>
-          {% for album in album_list %}
-          <tr>
-              <td><a href="{% url 'album_detail' album.id %}">{{ album.title }}</a></td>
-              <td>{{ album.artist }}</td>
-              <td>{{ album.year }}</td>
-          </tr>
-          {% endfor %}
-      </table>
+        <table class="table table-striped">
+            <th>Album Title</th>
+            <th>Artist</th>
+            <th>Year</th>
+            {% for album in album_list %}
+            <tr>
+                <td><a href="{% url 'album_detail' album.id %}">{{ album.title }}</a></td>
+                <td>{{ album.artist }}</td>
+                <td>{{ album.year }}</td>
+            </tr>
+            {% endfor %}
+        </table>
     </div>
 
     {% include 'include/pagination.html' %}
 
     {% else %}
-      <p>There are no albums in the library.</p>
+       <p>There are no albums in the library.</p>
     {% endif %}
 {% endblock %}
