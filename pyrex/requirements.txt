@@ -2,4 +2,4 @@ Django
 pyitunes
 django_extensions
 psycopg2
-django-bootstrap-pagination==1.6.2
+django-bootstrap-pagination
