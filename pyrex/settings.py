@@ -129,6 +129,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "pyrex/static"),
 ]
 
+NUM_TRACKS_PER_PLAYLIST_PAGE = 100
 
 try:
     from pyrex.local import *

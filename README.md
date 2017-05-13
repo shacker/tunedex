@@ -43,3 +43,5 @@ Depending on the size of your collection, this could be a *long* process - for m
 Examples for creating custom queries from command line
 
 Examples for building modules for dashboard
+
+Optionally override NUM_TRACKS_PER_PLAYLIST_PAGE

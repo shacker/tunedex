@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models.functions import Lower
 from django.shortcuts import render, get_object_or_404
@@ -70,7 +71,7 @@ def playlist_detail(request, pk=None):
 
     playlist = get_object_or_404(Playlist, pk=pk)
     playlist_tracks = playlist.track_set.all()
-    paginator = Paginator(playlist_tracks, 25)
+    paginator = Paginator(playlist_tracks, settings.NUM_TRACKS_PER_PLAYLIST_PAGE)
     page = request.GET.get('page', 1)
 
     try:
