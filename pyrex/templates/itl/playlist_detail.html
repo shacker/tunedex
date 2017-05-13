@@ -5,14 +5,14 @@
 {% block content %}
     <h1>Playlist "{{ playlist.name }}"</h1>
 
-    {% if page_obj %}
+    {% if tracks %}
         <div class="table-responsive">
           <table class="table table-striped">
               <th>Track</th>
               <th>Artist</th>
               <th>Album</th>
 
-              {% for track in page_obj %}
+              {% for track in tracks %}
               <tr>
                   <td><a href="{% url 'track_detail' track.id %}">{{ track.title }}</a></td>
                   <td><a href="{% url 'artist_detail' track.get_artist.id %}">{{ track.get_artist }}</a></td>
@@ -22,7 +22,7 @@
           </table>
         </div>
 
-    {% include 'include/pagination.html' %}
+    {% include 'include/pagination.html' with is_paginated=True page_obj=tracks %}
 
     {% else %}
         <p>There are no tracks in this playlist.</p>

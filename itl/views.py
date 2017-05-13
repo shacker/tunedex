@@ -1,8 +1,7 @@
-from django.shortcuts import render
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models.functions import Lower
+from django.shortcuts import render, get_object_or_404
 from django.views import generic
-from django.views.generic.detail import SingleObjectMixin
-from django.views.generic import ListView
 
 from itl.models import Album, Track, Kind, Artist, Playlist
 
@@ -64,20 +63,20 @@ class PlaylistListView(generic.ListView):
     model = Playlist
 
 
-class PlaylistDetailView(SingleObjectMixin, ListView):
-    model = Playlist
+def playlist_detail(request, pk=None):
 
-    paginate_by = 100
-    template_name = "itl/playlist_detail.html"
+    playlist = get_object_or_404(Playlist, pk=pk)
+    playlist_tracks = playlist.track_set.all()
+    paginator = Paginator(playlist_tracks, 25)
+    page = request.GET.get('page')
 
-    def get(self, request, *args, **kwargs):
-        self.object = self.get_object(queryset=Playlist.objects.all())
-        return super(PlaylistDetailView, self).get(request, *args, **kwargs)
+    try:
+        tracks = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        tracks = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        tracks = paginator.page(paginator.num_pages)
 
-    def get_context_data(self, **kwargs):
-        context = super(PlaylistDetailView, self).get_context_data(**kwargs)
-        context['playlist'] = self.object
-        return context
-
-    def get_queryset(self):
-        return self.object.track_set.all()
+    return render(request, 'itl/playlist_detail.html', locals())

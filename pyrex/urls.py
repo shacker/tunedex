@@ -18,7 +18,7 @@ urlpatterns = [
     url(r'^kinds/(?P<pk>\d+)$', views.KindDetailView.as_view(), name='kind_detail'),
 
     url(r'^playlists/$', views.PlaylistListView.as_view(), name='playlists'),
-    url(r'^playlists/(?P<pk>\d+)$', views.PlaylistDetailView.as_view(), name='playlist_detail'),
+    url(r'^playlists/(?P<pk>\d+)$', views.playlist_detail, name='playlist_detail'),
 
     url(r'^admin/', admin.site.urls),
 ]
