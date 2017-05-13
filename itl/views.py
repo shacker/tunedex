@@ -10,7 +10,7 @@ def dashboard(request):
     artists_count = Artist.objects.all().count()
     albums_count = Album.objects.all().count()
     tracks_count = Track.objects.all().count()
-    playlists_count = 17
+    playlists_count = Playlist.objects.all().count()
     return render(request, 'dashboard.html', locals(),)
 
 
