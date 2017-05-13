@@ -14,7 +14,7 @@
 
               {% for track in tracks %}
               <tr>
-                  <td><a href="{% url 'track_detail' track.id %}">{{ track.title }}</a></td>
+                  <td><a href="{% url 'track_detail' track.persistent_id %}">{{ track.title }}</a></td>
                   <td><a href="{% url 'artist_detail' track.get_artist.id %}">{{ track.get_artist }}</a></td>
                   <td><a href="{% url 'album_detail' track.album.id %}">{{ track.album }}</a></td>
               </tr>

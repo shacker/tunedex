@@ -46,8 +46,10 @@ class TrackListView(generic.ListView):
         return Track.objects.order_by(Lower('title'))
 
 
-class TrackDetailView(generic.DetailView):
-    model = Track
+def track_detail(request, pid=None):
+    track = get_object_or_404(Track, persistent_id=pid)
+
+    return render(request, 'itl/track_detail.html', locals())
 
 
 class KindListView(generic.ListView):

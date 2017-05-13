@@ -7,7 +7,7 @@
     <h2>Tracks of this kind:</h2>
     <ul>
         {% for track in kind.track_set.all  %}
-        <li><a href="{% url 'track_detail' track.id %}">{{ track }}</a></li>
+        <li><a href="{% url 'track_detail' track.persistent_id %}">{{ track }}</a></li>
         {% endfor %}
     </ul>
 

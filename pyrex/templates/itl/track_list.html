@@ -13,7 +13,7 @@
               <th>Album</th>
               {% for track in track_list %}
               <tr>
-                  <td><a href="{% url 'track_detail' track.id %}">{{ track.title }}</a></td>
+                  <td><a href="{% url 'track_detail' track.persistent_id %}">{{ track.title }}</a></td>
                   <td>{{ track.get_artist }}</td>
                   <td>{{ track.album }}</td>
               </tr>
