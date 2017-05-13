@@ -1,9 +1,13 @@
 import os.path
 import pickle
 import time
+from time import mktime
+
+from datetime import datetime
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
+from django.utils import timezone
 
 from itl.models import Artist, Album, Track, Genre, Kind, Playlist
 
@@ -12,6 +16,16 @@ from pyItunes import Library
 
 class Command(BaseCommand):
     help = "Synchronize iTunes Library with local database"
+
+    def struct_to_datetime(self, struct_time):
+        '''
+        iTunes stores timestamps as struct_time fields, but in Django we're using DateTime fields.
+        Convert if possible, or return None.
+        '''
+        if struct_time:
+            return timezone.make_aware(datetime.fromtimestamp(mktime(struct_time)))
+        else:
+            return None
 
     def handle(self, *args, **options):
 
@@ -38,7 +52,7 @@ class Command(BaseCommand):
         # for id, song in itl.songs.items():
 
         # theset = ['Decade 1970s', 'Compilations', 'GD Best', ]
-        theset = ['GD Best', ]
+        theset = ['Beatles Black Album', ]
         for pl in theset:
             for song in itl.getPlaylist(pl).tracks:
                 try:
@@ -53,10 +67,10 @@ class Command(BaseCommand):
                     artist, created = Artist.objects.get_or_create(name=artist_str)
 
                 if song.album:
-                    # Quasi-bug: Each song will reset year on album, which may not be correct
+                    # Quasi-bug: Each song will reset year and rating on album, which may not be correct
                     album, created = Album.objects.get_or_create(
                         title=song.album,
-                        defaults={'artist': artist, 'year': song.year})
+                        defaults={'artist': artist, 'year': song.year, 'album_rating': song.album_rating})
 
                 if song.genre:
                     genre, created = Genre.objects.get_or_create(name=song.genre)
@@ -70,12 +84,39 @@ class Command(BaseCommand):
                     'composer': artist,
                     'year': song.year,
                     'loved': song.loved,
+                    'compilation': song.compilation,
                     'album': album,
                     'genre': genre,
                     'kind': kind,
                     'size': song.size,
                     'bit_rate': song.bit_rate,
+                    'total_time': song.total_time,
+
+                    'track_number': song.track_number,
+                    'track_count': song.track_count,
+                    'sample_rate': song.sample_rate,
+                    'rating': song.rating,
+                    'play_count': song.play_count,
+                    'skip_count': song.skip_count,
+                    'length': song.length,
+                    'movement_number': song.movement_number,
+                    'movement_count': song.movement_count,
+                    'disc_number': song.disc_number,
+                    'disc_count': song.disc_count,
+
+                    'comments': song.comments,
+                    'location': song.location,
+                    'grouping': song.grouping,
+                    'work': song.work,
+                    'movement_name': song.movement_name,
+                    'location_escaped': song.location_escaped,
+
+                    'date_added': self.struct_to_datetime(song.date_added),
+                    'date_modified': self.struct_to_datetime(song.date_modified),
+                    'lastplayed': self.struct_to_datetime(song.lastplayed),
+                    'skip_date': self.struct_to_datetime(song.skip_date),
                 }
+
                 track, created = Track.objects.update_or_create(
                     persistent_id=song.persistent_id,
                     defaults=track_data,
@@ -84,7 +125,7 @@ class Command(BaseCommand):
         # Create playlists
         # playlists = itl.getPlaylistNames()
         # playlists = [itl.getPlaylist('GD Best'), itl.getPlaylist('Compilations'), itl.getPlaylist('Decade 1970s'), ]
-        playlists = [itl.getPlaylist('GD Best'), ]
+        playlists = [itl.getPlaylist('Beatles Black Album'), ]
         print("\n{c} playlists found".format(c=len(playlists)))
         for p in playlists:
             playlist_name = p.name

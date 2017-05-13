@@ -6,6 +6,8 @@
     <h1>Track: {{ track.title }}</h1>
     <p>Artist: {{ track.get_artist }}</p>
     <p>Persistent ID: {{ track.persistent_id }}</p>
+    <p>Loved: {{ track.loved }}</p>
+    <p>Total time: {{ track.total_time }}</p>
     {% if track.album %}
         <p>Album: <a href="{% url 'album_detail' track.album.id %}">{{ track.album }}</a></p>
     {% endif %}

@@ -12,6 +12,7 @@ class Album(models.Model):
     title = models.CharField(default="Album Unknown", max_length=255)
     artist = models.ForeignKey(Artist, null=True, blank=True, on_delete=models.SET_NULL)
     year = models.PositiveSmallIntegerField(null=True, blank=True)
+    album_rating = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return self.title
@@ -47,9 +48,34 @@ class Track(models.Model):
     album = models.ForeignKey(Album, blank=True, null=True)
     genre = models.ForeignKey(Genre, blank=True, null=True)
     kind = models.ForeignKey(Kind, blank=True, null=True)
+    loved = models.BooleanField(default=False)
+    compilation = models.BooleanField(default=False)
     size = models.IntegerField(null=True, blank=True)
     bit_rate = models.IntegerField(null=True, blank=True)
-    loved = models.BooleanField(default=False)
+    total_time = models.IntegerField(null=True, blank=True)
+    track_number = models.IntegerField(null=True, blank=True)
+    track_count = models.IntegerField(null=True, blank=True)
+    sample_rate = models.IntegerField(null=True, blank=True)
+    rating = models.IntegerField(null=True, blank=True)
+    play_count = models.IntegerField(null=True, blank=True)
+    skip_count = models.IntegerField(null=True, blank=True)
+    length = models.IntegerField(null=True, blank=True)
+    movement_number = models.IntegerField(null=True, blank=True)
+    movement_count = models.IntegerField(null=True, blank=True)
+    disc_number = models.IntegerField(null=True, blank=True)
+    disc_count = models.IntegerField(null=True, blank=True)
+
+    comments = models.CharField(blank=True, null=True, max_length=255)
+    location = models.CharField(blank=True, null=True, max_length=255)
+    grouping = models.CharField(blank=True, null=True, max_length=255)
+    work = models.CharField(blank=True, null=True, max_length=255)
+    movement_name = models.CharField(blank=True, null=True, max_length=255)
+    location_escaped = models.CharField(blank=True, null=True, max_length=255)
+
+    date_added = models.DateTimeField(blank=True, null=True)
+    date_modified = models.DateTimeField(blank=True, null=True)
+    lastplayed = models.DateTimeField(blank=True, null=True)
+    skip_date = models.DateTimeField(blank=True, null=True)
 
     playlists = models.ManyToManyField(Playlist, blank=True)
 
@@ -68,28 +94,3 @@ class Track(models.Model):
         indexes = [
             models.Index(fields=['persistent_id', ]),
         ]
-# Add LOVED
-# total_time = None (Integer)
-# track_number = None (Integer)
-# track_count = None (Integer)
-# disc_number = None (Integer)
-# disc_count = None (Integer)
-# date_modified = None (Time)
-# date_added = None (Time)
-# sample_rate = None (Integer)
-# comments = None (String)
-# rating = None (Integer)
-# album_rating = None (Integer)
-# play_count = None (Integer)
-# location = None (String)
-# location_escaped = None (String)
-# compilation = None (Boolean)
-# grouping = None (String)
-# lastplayed = None (Time)
-# skip_count = None (Integer)
-# skip_date = None(Time)
-# length = None (Integer)
-# work = None (String)
-# movement_name = None (String)
-# movement_number = None (Integer)
-# movement_count = None (Integer)
