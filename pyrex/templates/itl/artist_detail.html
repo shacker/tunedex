@@ -5,11 +5,15 @@
 {% block content %}
     <h1>Artist: {{ artist.name }}</h1>
 
-    <h3>Albums:</h3>
-    <ul>
-        {% for album in artist.album_set.all %}
-            <li><a href="{% url 'album_detail' album.id %}">{{ album.title }}</a> ({{ album.year }})</li>
-        {% endfor %}
-    </ul>
+    {% if artist.album_set.all %}
+        <h3>Albums:</h3>
+        <ul>
+            {% for album in artist.album_set.all %}
+                <li><a href="{% url 'album_detail' album.id %}">{{ album.title }}</a> ({{ album.year }})</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>This arist does not appear on any albums (or a bug prevented the album reference).</p>
+    {% endif %}
 
 {% endblock %}
