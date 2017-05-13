@@ -32,6 +32,14 @@ class Kind(models.Model):
         return self.name
 
 
+class TrackType(models.Model):
+    # e.g. "Remote" or "Local"
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+
 class Playlist(models.Model):
     name = models.CharField(max_length=255)
 
@@ -40,10 +48,22 @@ class Playlist(models.Model):
 
 
 class Track(models.Model):
+    '''
+    # Raw field dump from pyitunes, i.e. the data we need to shadow:
+    ['album_rating', 'album_rating_computed', 'artist', 'bit_rate', 'comments', 'compilation', 'composer',
+    'date_added', 'date_modified', 'disc_count', 'disc_number', 'genre', 'grouping', 'kind',
+    'lastplayed', 'length', 'location', 'location_escaped', 'movement_count', 'movement_name',
+    'movement_number', 'name', 'persistent_id', 'play_count', 'playlist_order', 'rating', 'rating_computed',
+    'sample_rate', 'size', 'skip_count', 'skip_date', 'total_time', 'track_count', 'track_id', 'track_number',
+    'track_type', 'work', 'year']
+    '''
+
     persistent_id = models.CharField(max_length=255, blank=True)
+    track_id = models.IntegerField(null=True, blank=True)
     title = models.CharField(default="Unknown", max_length=255)
     artist = models.ForeignKey(Artist, blank=True, null=True)
     composer = models.ForeignKey(Artist, blank=True, null=True, related_name="track_composer")
+    track_type = models.ForeignKey(TrackType, blank=True, null=True, related_name="track_type")
     year = models.PositiveSmallIntegerField(null=True, blank=True)
     album = models.ForeignKey(Album, blank=True, null=True)
     genre = models.ForeignKey(Genre, blank=True, null=True)
@@ -66,10 +86,10 @@ class Track(models.Model):
     disc_count = models.IntegerField(null=True, blank=True)
 
     comments = models.CharField(blank=True, null=True, max_length=255)
-    location = models.CharField(blank=True, null=True, max_length=255)
     grouping = models.CharField(blank=True, null=True, max_length=255)
     work = models.CharField(blank=True, null=True, max_length=255)
     movement_name = models.CharField(blank=True, null=True, max_length=255)
+    location = models.CharField(blank=True, null=True, max_length=255)
     location_escaped = models.CharField(blank=True, null=True, max_length=255)
 
     date_added = models.DateTimeField(blank=True, null=True)

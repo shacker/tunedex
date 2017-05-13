@@ -9,7 +9,7 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 
-from itl.models import Artist, Album, Track, Genre, Kind, Playlist
+from itl.models import Artist, Album, Track, Genre, Kind, TrackType, Playlist
 
 from pyItunes import Library
 
@@ -75,10 +75,14 @@ class Command(BaseCommand):
                 if song.genre:
                     genre, created = Genre.objects.get_or_create(name=song.genre)
 
+                if song.track_type:
+                    track_type, created = TrackType.objects.get_or_create(name=song.track_type)
+
                 if song.kind:
                     kind, created = Kind.objects.get_or_create(name=song.kind)
 
                 track_data = {
+                    'track_id': song.track_id,
                     'title': song.name,
                     'artist': artist,
                     'composer': artist,
@@ -88,6 +92,7 @@ class Command(BaseCommand):
                     'album': album,
                     'genre': genre,
                     'kind': kind,
+                    'track_type': track_type,
                     'size': song.size,
                     'bit_rate': song.bit_rate,
                     'total_time': song.total_time,
