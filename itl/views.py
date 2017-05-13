@@ -63,6 +63,7 @@ class KindDetailView(generic.DetailView):
 
 class PlaylistListView(generic.ListView):
     model = Playlist
+    paginate_by = 25
 
 
 def playlist_detail(request, pk=None):
@@ -70,7 +71,7 @@ def playlist_detail(request, pk=None):
     playlist = get_object_or_404(Playlist, pk=pk)
     playlist_tracks = playlist.track_set.all()
     paginator = Paginator(playlist_tracks, 25)
-    page = request.GET.get('page')
+    page = request.GET.get('page', 1)
 
     try:
         tracks = paginator.page(page)

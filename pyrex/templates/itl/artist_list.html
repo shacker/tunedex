@@ -17,7 +17,9 @@
           {% endfor %}
       </table>
 
-      {% include 'include/pagination.html' %}
+      {% if page_obj.paginator.num_pages > 1 %}
+          {% include 'include/pagination.html' %}
+      {% endif %}
 
     </div>
 

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     # 3rd party
     'django_extensions',
+    'bootstrap_pagination',
 
     'itl',
 ]

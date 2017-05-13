@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load bootstrap_pagination %}
 
 {% block title %}{{ block.super }} List of Playlists{% endblock title %}
 
@@ -19,7 +20,9 @@
         </table>
     </div>
 
-    {% include 'include/pagination.html' %}
+    {% if page_obj.paginator.num_pages > 1 %}
+        {% include 'include/pagination.html' %}
+    {% endif %}
 
     {% else %}
       <p>There are no playlists in the library.</p>

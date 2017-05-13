@@ -1,34 +1,5 @@
-{% if is_paginated %}
-  <nav>
-    <ul class="pagination">
-      {% if page_obj.has_previous %}
-        <li>
-          <a href="?page={{ page_obj.previous_page_number }}">
-            <span>Previous</span>
-          </a>
-        </li>
-      {% else %}
-        <li class="disabled">
-          <a href="#">
-            <span>Previous</span>
-          </a>
-        </li>
-      {% endif %}
+{% load bootstrap_pagination %}
 
-
-      {% if page_obj.has_next %}
-        <li>
-          <a href="?page={{ page_obj.next_page_number }}">
-            <span>Next</span>
-          </a>
-        </li>
-      {% else %}
-        <li {% if not page_obj.has_next %}class="disabled"{% endif %}>
-          <a href="#">
-            <span>Next</span>
-          </a>
-        </li>
-      {% endif %}
-    </ul>
-  </nav>
-{% endif %}
+<div class="text-center">
+    {% bootstrap_paginate page_obj range=10 show_prev_next="false" show_first_last="true" %}
+</div>

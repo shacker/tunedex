@@ -20,10 +20,13 @@
               </tr>
               {% endfor %}
           </table>
+
         </div>
 
-    {% include 'include/pagination.html' with is_paginated=True page_obj=tracks %}
-
+        {% if tracks.paginator.num_pages > 1 %}
+            {% include 'include/pagination.html' with page_obj=tracks %}
+        {% endif %}
+    
     {% else %}
         <p>There are no tracks in this playlist.</p>
     {% endif %}
