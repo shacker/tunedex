@@ -59,7 +59,7 @@ class Command(BaseCommand):
                     artist, created = Artist.objects.get_or_create(name=artist_str)
 
                 if song.album:
-                    # Quasi-bug: Each song will reset year and rating on album, which may not be correct
+                    # Quasi-bug: Each song will reset year and rating on album, which may or may not be correct
                     album, created = Album.objects.get_or_create(
                         title=song.album,
                         defaults={'artist': artist, 'year': song.year, 'album_rating': song.album_rating})
@@ -118,9 +118,8 @@ class Command(BaseCommand):
         plists = [itl.getPlaylist(p) for p in playlists]
         print("\n{c} playlists found".format(c=len(plists)))
         for pl in plists:
-            playlist_name = pl.name
-            playlist, created = Playlist.objects.get_or_create(name=playlist_name)
-            print("Adding tracks to playlist {0}".format(playlist_name))
+            playlist, created = Playlist.objects.get_or_create(name=pl.name)
+            print("Adding tracks to playlist {0}".format(pl.name))
             persistent_ids = [t.persistent_id for t in pl.tracks]
             addtraks = Track.objects.filter(persistent_id__in=persistent_ids)
             playlist.track_set.set(addtraks, clear=True)
