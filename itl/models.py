@@ -56,6 +56,9 @@ class Track(models.Model):
     'movement_number', 'name', 'persistent_id', 'play_count', 'playlist_order', 'rating', 'rating_computed',
     'sample_rate', 'size', 'skip_count', 'skip_date', 'total_time', 'track_count', 'track_id', 'track_number',
     'track_type', 'work', 'year']
+
+    Not implemented:
+    'location', 'location_escaped'
     '''
 
     persistent_id = models.CharField(max_length=255, blank=True)
@@ -89,8 +92,6 @@ class Track(models.Model):
     grouping = models.CharField(blank=True, null=True, max_length=255)
     work = models.CharField(blank=True, null=True, max_length=255)
     movement_name = models.CharField(blank=True, null=True, max_length=255)
-    location = models.CharField(blank=True, null=True, max_length=255)
-    location_escaped = models.CharField(blank=True, null=True, max_length=255)
 
     date_added = models.DateTimeField(blank=True, null=True)
     date_modified = models.DateTimeField(blank=True, null=True)
