@@ -1,17 +1,15 @@
+import datetime
 import os.path
 import pickle
 import time
-from time import mktime
-
-from datetime import datetime
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 
-from itl.models import Artist, Album, Track, Genre, Kind, TrackType, Playlist
-
 from pyItunes import Library
+
+from itl.models import Artist, Album, Track, Genre, Kind, TrackType, Playlist
 
 
 class Command(BaseCommand):
@@ -23,37 +21,31 @@ class Command(BaseCommand):
         Convert if possible, or return None.
         '''
         if struct_time:
-            return timezone.make_aware(datetime.fromtimestamp(mktime(struct_time)))
+            return timezone.make_aware(datetime.datetime.fromtimestamp(time.mktime(struct_time)))
         else:
             return None
+
+    def add_arguments(self, parser):
+        parser.add_argument('playlist_args', nargs='?', type=str)
 
     def handle(self, *args, **options):
 
         lib_path = settings.LIBRARY_PATH
+
+        # Use pickled version of xml db for repeat runs, if available, or generate
         pickle_file = "itl.p"
         expiry = 60 * 60 * 24 * 30  # Refresh pickled file if older than
         epoch_time = int(time.time())  # Now
-
-        # Generate pickled version of database if stale or doesn't exist
         if not os.path.isfile(pickle_file) or os.path.getmtime(pickle_file) + expiry < epoch_time:
             itl_source = Library(lib_path)
             pickle.dump(itl_source, open(pickle_file, "wb"))
         itl = pickle.load(open(pickle_file, "rb"))
 
-        '''
-        ['album_rating', 'album_rating_computed', 'artist', 'bit_rate', 'comments', 'compilation', 'composer',
-        'date_added', 'date_modified', 'disc_count', 'disc_number', 'genre', 'grouping', 'kind',
-        'lastplayed', 'length', 'location', 'location_escaped', 'movement_count', 'movement_name',
-        'movement_number', 'name', 'persistent_id', 'play_count', 'playlist_order', 'rating', 'rating_computed',
-        'sample_rate', 'size', 'skip_count', 'skip_date', 'total_time', 'track_count', 'track_id', 'track_number',
-        'track_type', 'work', 'year']
-        '''
+        # Either take playlist names from cli args, or get all
+        playlists = options['playlist_args'].split(",") if options['playlist_args'] else itl.getPlaylistNames()
 
-        # for id, song in itl.songs.items():
-
-        # theset = ['Decade 1970s', 'Compilations', 'GD Best', ]
-        theset = ['Beatles Black Album', ]
-        for pl in theset:
+        for pl in playlists:
+            print(pl)
             for song in itl.getPlaylist(pl).tracks:
                 try:
                     print("{a} - {n}".format(a=song.artist, n=song.name))
@@ -96,7 +88,6 @@ class Command(BaseCommand):
                     'size': song.size,
                     'bit_rate': song.bit_rate,
                     'total_time': song.total_time,
-
                     'track_number': song.track_number,
                     'track_count': song.track_count,
                     'sample_rate': song.sample_rate,
@@ -108,14 +99,10 @@ class Command(BaseCommand):
                     'movement_count': song.movement_count,
                     'disc_number': song.disc_number,
                     'disc_count': song.disc_count,
-
                     'comments': song.comments,
-                    'location': song.location,
                     'grouping': song.grouping,
                     'work': song.work,
                     'movement_name': song.movement_name,
-                    'location_escaped': song.location_escaped,
-
                     'date_added': self.struct_to_datetime(song.date_added),
                     'date_modified': self.struct_to_datetime(song.date_modified),
                     'lastplayed': self.struct_to_datetime(song.lastplayed),
@@ -128,14 +115,12 @@ class Command(BaseCommand):
                 )
 
         # Create playlists
-        # playlists = itl.getPlaylistNames()
-        # playlists = [itl.getPlaylist('GD Best'), itl.getPlaylist('Compilations'), itl.getPlaylist('Decade 1970s'), ]
-        playlists = [itl.getPlaylist('Beatles Black Album'), ]
-        print("\n{c} playlists found".format(c=len(playlists)))
-        for p in playlists:
-            playlist_name = p.name
+        plists = [itl.getPlaylist(p) for p in playlists]
+        print("\n{c} playlists found".format(c=len(plists)))
+        for pl in plists:
+            playlist_name = pl.name
             playlist, created = Playlist.objects.get_or_create(name=playlist_name)
             print("Adding tracks to playlist {0}".format(playlist_name))
-            persistent_ids = [t.persistent_id for t in p.tracks]
+            persistent_ids = [t.persistent_id for t in pl.tracks]
             addtraks = Track.objects.filter(persistent_id__in=persistent_ids)
             playlist.track_set.set(addtraks, clear=True)

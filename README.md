@@ -45,3 +45,7 @@ Examples for creating custom queries from command line
 Examples for building modules for dashboard
 
 Optionally override NUM_TRACKS_PER_PLAYLIST_PAGE
+
+To sync only certain playlists, pass in comma-separated playlist names, *exactly spelled and quoted, with no spaces between playlist names*, e.g.:
+
+`./manage.py sync 'Hi-Fi','Super Favorites'``
