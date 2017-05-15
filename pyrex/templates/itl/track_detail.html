@@ -1,14 +1,162 @@
 {% extends "base.html" %}
+{% load humanize %}
 
 {% block title %}{{ block.super }} Track: {{ track.get_artist }}, {{ track.title }}{% endblock title %}
 
 {% block content %}
     <h1>Track: {{ track.title }}</h1>
-    <p>Artist: {{ track.get_artist }}</p>
-    <p>Persistent ID: {{ track.persistent_id }}</p>
-    <p>Loved: {{ track.loved }}</p>
-    <p>Total time: {{ track.total_time }}</p>
-    {% if track.album %}
-        <p>Album: <a href="{% url 'album_detail' track.album.id %}">{{ track.album }}</a></p>
-    {% endif %}
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Artist</th>
+                <td>
+                    {% if track.artist %}
+                        <a href="{% url 'artist_detail' track.get_artist.id %}">{{ track.get_artist }}</a>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Album</th>
+                <td>
+                    {% if track.album %}
+                        <a href="{% url 'album_detail' track.album.id %}">{{ track.album }}</a>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Bitrate</th>
+                <td>{{ track.bit_rate }} kbps</td>
+            </tr>
+            <tr>
+                <th>Comments</th>
+                <td>{{ track.comments }}</td>
+            </tr>
+            <tr>
+                <th>Compilation</th>
+                <td>{{ track.compilation }}</td>
+            </tr>
+            <tr>
+                <th>Composer</th>
+                <td>{{ track.composer }}</td>
+            </tr>
+            <tr>
+                <th>Date Added</th>
+                <td>{{ track.date_added }}</td>
+            </tr>
+            <tr>
+                <th>Date Modified</th>
+                <td>{{ track.date_modified }}</td>
+            </tr>
+            <tr>
+                <th>Disc Count</th>
+                <td>{{ track.disc_count }}</td>
+            </tr>
+            <tr>
+                <th>Disc Number</th>
+                <td>{{ track.disc_number }}</td>
+            </tr>
+            <tr>
+                <th>Genre</th>
+                <td>{{ track.genre }}</td>
+            </tr>
+            <tr>
+                <th>Grouping</th>
+                <td>{{ track.grouping }}</td>
+            </tr>
+            <tr>
+                <th>Kind (File Type)</th>
+                <td>{{ track.kind }}</td>
+            </tr>
+            <tr>
+                <th>Last Played</th>
+                <td>{{ track.lastplayed }}</td>
+            </tr>
+            <tr>
+                <th>Length</th>
+                <td>{{ track.length }}</td>
+            </tr>
+            <tr>
+                <th>Loved</th>
+                <td>{{ track.loved }}</td>
+            </tr>
+            <tr>
+                <th>Movement Count</th>
+                <td>{{ track.fomovement_counto }}</td>
+            </tr>
+            <tr>
+                <th>Movement Name</th>
+                <td>{{ track.movement_name }}</td>
+            </tr>
+            <tr>
+                <th>Movement Number</th>
+                <td>{{ track.movement_number }}</td>
+            </tr>
+            <tr>
+                <th>Persistent ID</th>
+                <td>{{ track.persistent_id }}</td>
+            </tr>
+            <tr>
+                <th>Play Count</th>
+                <td>{{ track.play_count }}</td>
+            </tr>
+            <tr>
+                <th>Rating</th>
+                <td>{{ track.rating }}</td>
+            </tr>
+            <tr>
+                <th>Sample Rate</th>
+                <td>{{ track.sample_rate }} kHz</td>
+            </tr>
+            <tr>
+                <th>Size</th>
+                <td>{{ track.size|filesizeformat }} ({{ track.size|intcomma }} bytes)</td>
+            </tr>
+            <tr>
+                <th>Skip Count</th>
+                <td>{{ track.skip_count }}</td>
+            </tr>
+            <tr>
+                <th>Skip Date</th>
+                <td>{{ track.skip_date }}</td>
+            </tr>
+            <tr>
+                <th>Total time</th>
+                <td>{{ track.total_time }}</td>
+            </tr>
+            <tr>
+                <th>Track ID</th>
+                <td>{{ track.track_id }}</td>
+            </tr>
+            <tr>
+                <th>Track Number</th>
+                <td>{{ track.track_number }}</td>
+            </tr>
+            <tr>
+                <th>Track Count</th>
+                <td>{{ track.track_count }}</td>
+            </tr>
+            <tr>
+                <th>Track Type</th>
+                <td>{{ track.track_type }}</td>
+            </tr>
+            <tr>
+                <th>Work</th>
+                <td>{{ track.work }}</td>
+            </tr>
+            <tr>
+                <th>Year</th>
+                <td>{{ track.year }}</td>
+            </tr>
+
+
+        </tbody>
+    </table>
 {% endblock %}
+
+{% comment %}
+
+
+
+    playlists = models.ManyToManyField(Playlist, blank=True)
+{% endcomment %}
