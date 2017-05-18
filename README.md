@@ -1,6 +1,12 @@
 # pyrex
 Summary: Convert iTunes' XML "database" to a real Django database and project for advanced querying, analysis, data visualization.
 
+consists of two parts:
+
+- sync script to import all tracks
+- site to display imported dat
+
+
 Installation:
 Django >= 1.11 is *required*.
 
