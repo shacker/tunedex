@@ -106,6 +106,23 @@ class Track(models.Model):
         else:
             return None
 
+    def microseconds_to_time(self):
+        # Convert microseconds to e.g. 01:23:52 or 04:09
+
+        seconds = int(self.length / 1000)
+        m, s = divmod(seconds, 60)
+        h, m = divmod(m, 60)
+
+        # Zero-pad results
+        s = str(s).zfill(2)
+        m = str(m).zfill(2)
+
+        if h:
+            h = str(h).zfill(2)
+            return("{0}:{1}:{2}".format(h, m, s))
+        else:
+            return("{0}:{1}".format(m, s))
+
     def __str__(self):
         return self.title
 

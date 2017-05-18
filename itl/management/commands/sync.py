@@ -44,6 +44,7 @@ class Command(BaseCommand):
         # Optionally limit to a partial lib for testing
         limit = options['limit'] if options['limit'] else 99999999999999
         songcount = len(itl.songs)
+
         for index, song in enumerate(itl.songs.items()):
             if index > limit:
                 break
