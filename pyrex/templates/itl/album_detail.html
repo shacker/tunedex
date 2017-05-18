@@ -6,11 +6,19 @@
     <h1>Album: {{ album.title }}</h1>
     <h2>Artist: <a href="{% url 'artist_detail' album.artist.id %}">{{ album.artist }}</a></h2>
 
-    <h3>Tracks:</h3>
-    <ul>
-        {% for track in album.track_set.all %}
-            <li><a href="{% url 'track_detail' track.persistent_id %}">{{ track.title }}</a></li>
+    <table class="table table-striped">
+        <tr>
+            <th>Track</th>
+            <th>Title</th>
+            <th>Play Count</th>
+        </tr>
+        {% for track in tracks %}
+        <tr>
+            <td>{{ track.track_number }}</td>
+            <td><a href="{% url 'track_detail' track.persistent_id %}">{{ track.title }}</a></td>
+            <td>{{ track.play_count }}</td>
+        </tr>
         {% endfor %}
-    </ul>
+    </table>
 
 {% endblock %}

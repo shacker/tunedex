@@ -26,6 +26,12 @@ class AlbumListView(generic.ListView):
 class AlbumDetailView(generic.DetailView):
     model = Album
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tracks = self.object.track_set.all().order_by('track_number')
+        context['tracks'] = tracks
+        return context
+
 
 class ArtistListView(generic.ListView):
     model = Artist
