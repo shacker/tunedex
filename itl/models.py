@@ -31,6 +31,9 @@ class Kind(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = ["name"]
+
 
 class TrackType(models.Model):
     # e.g. "Remote" or "Local"
@@ -45,6 +48,9 @@ class Playlist(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        ordering = ["name"]
 
 
 class Track(models.Model):
