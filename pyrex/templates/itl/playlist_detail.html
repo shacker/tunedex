@@ -4,6 +4,7 @@
 
 {% block content %}
     <h1>Playlist "{{ playlist.name }}"</h1>
+    <p>{{ playlist.playlistentry_set.all.count }} tracks</p>
 
     {% if tracks %}
         <div class="table-responsive">
@@ -12,21 +13,20 @@
               <th>Artist</th>
               <th>Album</th>
 
-              {% for track in tracks %}
+              {% for entry in tracks %}
               <tr>
-                  <td><a href="{% url 'track_detail' track.persistent_id %}">{{ track.title }}</a></td>
-                  <td><a href="{% url 'artist_detail' track.get_artist.id %}">{{ track.get_artist }}</a></td>
-                  <td><a href="{% url 'album_detail' track.album.id %}">{{ track.album }}</a></td>
+                  <td><a href="{% url 'track_detail' entry.track.persistent_id %}">{{ entry.track.title }}</a></td>
+                  <td><a href="{% url 'artist_detail' entry.track.get_artist.id %}">{{ entry.track.get_artist }}</a></td>
+                  <td><a href="{% url 'album_detail' entry.track.album.id %}">{{ entry.track.album }}</a></td>
               </tr>
               {% endfor %}
           </table>
-
         </div>
 
         {% if tracks.paginator.num_pages > 1 %}
             {% include 'include/pagination.html' with page_obj=tracks %}
         {% endif %}
-    
+
     {% else %}
         <p>There are no tracks in this playlist.</p>
     {% endif %}

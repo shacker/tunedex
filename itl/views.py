@@ -76,7 +76,7 @@ class PlaylistListView(generic.ListView):
 def playlist_detail(request, pk=None):
 
     playlist = get_object_or_404(Playlist, pk=pk)
-    playlist_tracks = playlist.track_set.all()
+    playlist_tracks = playlist.playlistentry_set.all().order_by('playlist_order')
     paginator = Paginator(playlist_tracks, settings.NUM_TRACKS_PER_PLAYLIST_PAGE)
     page = request.GET.get('page', 1)
 

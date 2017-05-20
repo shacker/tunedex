@@ -102,8 +102,6 @@ class Track(models.Model):
     work = models.CharField(blank=True, null=True, max_length=255)
     year = models.PositiveSmallIntegerField(null=True, blank=True)
 
-    playlists = models.ManyToManyField(Playlist, blank=True)
-
     def get_artist(self):
         if self.artist:
             return self.artist
@@ -114,12 +112,10 @@ class Track(models.Model):
 
     def microseconds_to_time(self):
         # Convert microseconds to e.g. 01:23:52 or 04:09
-
         seconds = int(self.length / 1000)
         m, s = divmod(seconds, 60)
         h, m = divmod(m, 60)
 
-        # Zero-pad results
         s = str(s).zfill(2)
         m = str(m).zfill(2)
 
@@ -136,3 +132,16 @@ class Track(models.Model):
         indexes = [
             models.Index(fields=['persistent_id', ]),
         ]
+
+
+class PlaylistEntry(models.Model):
+    # Connect a track to a playlist, preserving playlist_order
+    track = models.ForeignKey(Track)
+    playlist = models.ForeignKey(Playlist)
+    playlist_order = models.IntegerField(null=True, blank=True)
+
+    def __str__(self):
+        return self.track.title
+
+    class Meta:
+        ordering = ["playlist_order"]
