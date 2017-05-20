@@ -32,14 +32,17 @@ class Command(BaseCommand):
 
         lib_path = settings.LIBRARY_PATH
 
-        # Use pickled version of xml db for repeat runs, if available, or generate
-        pickle_file = "itl.p"
-        expiry = settings.PICKLE_AGE  # Refresh pickled file if older than
-        epoch_time = int(time.time())  # Now
-        if not os.path.isfile(pickle_file) or os.path.getmtime(pickle_file) + expiry < epoch_time:
-            itl_source = Library(lib_path)
-            pickle.dump(itl_source, open(pickle_file, "wb"))
-        itl = pickle.load(open(pickle_file, "rb"))
+        if settings.DEBUG:
+            # Use pickled version of xml db for repeat runs, if available, or generate
+            pickle_file = "itl.p"
+            expiry = settings.PICKLE_AGE  # Refresh pickled file if older than
+            epoch_time = int(time.time())  # Now
+            if not os.path.isfile(pickle_file) or os.path.getmtime(pickle_file) + expiry < epoch_time:
+                itl_source = Library(lib_path)
+                pickle.dump(itl_source, open(pickle_file, "wb"))
+            itl = pickle.load(open(pickle_file, "rb"))
+        else:
+            itl = Library(lib_path)
 
         # Optionally limit to a partial lib for testing
         limit = options['limit'] if options['limit'] else 99999999999999

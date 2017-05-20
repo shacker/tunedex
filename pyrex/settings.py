@@ -24,7 +24,7 @@ PICKLE_AGE = 60 * 60 * 24 * 30  # Refresh pickled file if older than
 SECRET_KEY = 'wyf6w_rr7e0gx&!-+gd-wgomy7zna)8_^wbj7f3hx7yk2@+x@='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
