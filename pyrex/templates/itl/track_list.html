@@ -47,10 +47,10 @@
               {% for track in tracks %}
               <tr>
                   <td><a href="{% url 'track_detail' track.persistent_id %}">{{ track.title }}</a></td>
-                  <td>{{ track.get_artist }}</td>
-                  <td>{{ track.album }}</td>
-                  <td>{{ track.year|default_if_none:"" }}</td>
-                  <td>{{ track.genre|default_if_none:"" }}</td>
+                  <td>{% if track.artist %}<a href="{% url 'artist_detail' track.get_artist.id %}">{{ track.get_artist }}</a>{% endif %}</td>
+                  <td>{% if track.album %}<a href="{% url 'album_detail' track.album.id %}">{{ track.album }}</a>{% endif %}</td>
+                  <td>{% if track.year %}<a href="{% url 'tracks' %}?year={{ track.year }}">{{ track.year }}</a>{% endif %}</td>
+                  <td>{% if track.genre %}<a href="{% url 'tracks' %}?genre={{ track.genre.id }}">{{ track.genre }}</a>{% endif %}</td>
                   <td>{{ track.kind|default_if_none:"" }}</td>
               </tr>
               {% endfor %}
