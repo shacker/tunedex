@@ -11,7 +11,7 @@ urlpatterns = [
     url(r'^artists/$', views.ArtistListView.as_view(), name='artists'),
     url(r'^artists/(?P<pk>\d+)$', views.ArtistDetailView.as_view(), name='artist_detail'),
 
-    url(r'^tracks/$', views.TrackListView.as_view(), name='tracks'),
+    url(r'^tracks/$', views.track_list, name='tracks'),
     url(r'^tracks/(?P<pid>\w+)$', views.track_detail, name='track_detail'),
 
     url(r'^kinds/$', views.KindListView.as_view(), name='kinds'),

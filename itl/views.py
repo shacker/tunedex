@@ -46,12 +46,29 @@ class ArtistDetailView(generic.DetailView):
     model = Artist
 
 
-class TrackListView(generic.ListView):
-    model = Track
-    paginate_by = 100
+def track_list(request):
 
-    def get_queryset(self):
-        return Track.objects.order_by(Lower('title'))
+    qs = Track.objects.all().order_by(Lower('title'))
+    year = request.GET.get('year')
+    genre = request.GET.get('genre')
+    if year:
+        qs = qs.filter(year=year)
+    if genre:
+        qs = qs.filter(genre__id=genre)
+
+    paginator = Paginator(qs, settings.NUM_TRACKS_PER_PLAYLIST_PAGE)
+    page = request.GET.get('page', 1)
+
+    try:
+        tracks = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        tracks = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        tracks = paginator.page(paginator.num_pages)
+
+    return render(request, 'itl/track_list.html', locals())
 
 
 def track_detail(request, pid=None):

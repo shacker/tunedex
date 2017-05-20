@@ -6,24 +6,28 @@
 {% block content %}
     <h1>Track List</h1>
 
-    {% if track_list %}
+    {% if tracks %}
         <div class="table-responsive">
           <table class="table table-striped">
               <th>Track</th>
               <th>Artist</th>
               <th>Album</th>
-              {% for track in track_list %}
+              <th>Year</th>
+              <th>Genre</th>
+              {% for track in tracks %}
               <tr>
                   <td><a href="{% url 'track_detail' track.persistent_id %}">{{ track.title }}</a></td>
                   <td>{{ track.get_artist }}</td>
                   <td>{{ track.album }}</td>
+                  <td>{{ track.year|default_if_none:"" }}</td>
+                  <td>{{ track.genre|default_if_none:"" }}</td>
               </tr>
               {% endfor %}
           </table>
         </div>
 
-        {% if page_obj.paginator.num_pages > 1 %}
-            {% include 'include/pagination.html' %}
+        {% if tracks.paginator.num_pages > 1 %}
+            {% include 'include/pagination.html' with page_obj=tracks %}
         {% endif %}
 
     {% else %}
