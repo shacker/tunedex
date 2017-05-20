@@ -272,12 +272,12 @@
                     <ul class="nav" id="side-menu">
                         <li class="sidebar-search">
                             <div class="input-group custom-search-form">
-                                <input type="text" class="form-control" placeholder="Search...">
+                                <input type="text" class="form-control" id="search_q" name="search_q" placeholder="{% if q %}{{q}}{% else %}Search...{% endif %}">
                                 <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
+                                    <button class="btn btn-default" type="button" id="search_button">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
                             </div>
                             <!-- /input-group -->
                         </li>
@@ -415,7 +415,21 @@
     <script src="{% static "theme/vendor/raphael/raphael.min.js" %}"></script>
     <script src="{% static "theme/vendor/morrisjs/morris.min.js" %}"></script>
 
-    {% block extra_js %}{% endblock extra_js %}
+    <script>
+        $('#search_button').on('click', function () {
+            var url = "/tracks/?q=" + $('#search_q').val();
+            window.location = url;
+        });
+        $("#search_q").keyup(function(event){
+            if(event.keyCode == 13){
+                $("#search_button").click();
+            }
+        });
+
+    </script>
+
+    {% block extra_js %}
+    {% endblock extra_js %}
 
     <!-- Custom Theme JavaScript must come last -->
     <script src="{% static "theme/dist/js/sb-admin-2.js" %}></script>

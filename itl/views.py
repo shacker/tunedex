@@ -3,6 +3,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models.functions import Lower
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
+from django.contrib.postgres.search import SearchVector
 
 from itl.models import Album, Track, Kind, Artist, Playlist, LibraryData, Genre
 
@@ -57,6 +58,10 @@ def track_list(request):
     year = request.GET.get('year')
     genre = request.GET.get('genre')
     kind = request.GET.get('kind')
+    q = request.GET.get('q')
+    if q:
+        qs = Track.objects.annotate(search=SearchVector(
+            'title', 'comments', 'artist__name', 'album__title')).filter(search=q)
     if year:
         year = int(year)
         qs = qs.filter(year=year)
