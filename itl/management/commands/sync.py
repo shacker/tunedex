@@ -34,7 +34,7 @@ class Command(BaseCommand):
 
         # Use pickled version of xml db for repeat runs, if available, or generate
         pickle_file = "itl.p"
-        expiry = 60 * 60 * 24 * 30  # Refresh pickled file if older than
+        expiry = settings.PICKLE_AGE  # Refresh pickled file if older than
         epoch_time = int(time.time())  # Now
         if not os.path.isfile(pickle_file) or os.path.getmtime(pickle_file) + expiry < epoch_time:
             itl_source = Library(lib_path)

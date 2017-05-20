@@ -48,6 +48,11 @@ Artwork
 
 Apple has this locked down tight. There is no reference to in the XML. Appears to be an encrypted connection between the obfuscated contents of the Album Artwork directory and the library. Case of beer to anyone who figures out how to bring in artwork!
 
+Optionally override in local:
+
+# PICKLE_AGE = 60 * 60 * 24 * 30  # Refresh pickled file if older than
+PICKLE_AGE = 60  # Refresh pickled file if older than
+
 ------
 
 Examples for creating custom queries from command line
