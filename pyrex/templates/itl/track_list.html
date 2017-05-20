@@ -24,6 +24,15 @@
                 {% endfor %}
             </select>
         </div>
+
+        <div class="form-group">
+            <select class="form-control" id="kind_select">
+                <option value="">Kind</option>
+                {% for k in kinds %}
+                    <option value="{{ k.id }}" {% if k.id == kind %}selected{% endif %}>{{ k }}</option>
+                {% endfor %}
+            </select>
+        </div>
     </form>
 
     {% if tracks %}
@@ -34,6 +43,7 @@
               <th>Album</th>
               <th>Year</th>
               <th>Genre</th>
+              <th>Kind</th>
               {% for track in tracks %}
               <tr>
                   <td><a href="{% url 'track_detail' track.persistent_id %}">{{ track.title }}</a></td>
@@ -41,6 +51,7 @@
                   <td>{{ track.album }}</td>
                   <td>{{ track.year|default_if_none:"" }}</td>
                   <td>{{ track.genre|default_if_none:"" }}</td>
+                  <td>{{ track.kind|default_if_none:"" }}</td>
               </tr>
               {% endfor %}
           </table>
@@ -79,6 +90,14 @@
         $(function(){
             $('#year_select').on('change', function () {
                 var url = replaceUrlParam(window.location.href, "year", $(this).val());
+                window.location = url;
+                return false;
+            });
+        });
+
+        $(function(){
+            $('#kind_select').on('change', function () {
+                var url = replaceUrlParam(window.location.href, "kind", $(this).val());
                 window.location = url;
                 return false;
             });

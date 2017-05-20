@@ -51,16 +51,21 @@ def track_list(request):
     # For select dropdowns
     genres = Genre.objects.all().order_by('name')
     years = Track.objects.exclude(year=None).order_by('-year').values_list('year', flat=True).distinct()
+    kinds = Kind.objects.all().order_by('name')
 
     qs = Track.objects.all().order_by(Lower('title'))
     year = request.GET.get('year')
     genre = request.GET.get('genre')
+    kind = request.GET.get('kind')
     if year:
         year = int(year)
         qs = qs.filter(year=year)
     if genre:
         genre = int(genre)
         qs = qs.filter(genre__id=genre)
+    if kind:
+        kind = int(kind)
+        qs = qs.filter(kind__id=kind)
 
     paginator = Paginator(qs, settings.NUM_TRACKS_PER_PLAYLIST_PAGE)
     page = request.GET.get('page', 1)
