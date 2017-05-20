@@ -82,7 +82,7 @@
             </tr>
             <tr>
                 <th>Movement Count</th>
-                <td>{{ track.fomovement_counto }}</td>
+                <td>{{ track.movement_count }}</td>
             </tr>
             <tr>
                 <th>Movement Name</th>
@@ -102,7 +102,7 @@
             </tr>
             <tr>
                 <th>Rating</th>
-                <td>{{ track.rating }}</td>
+                <td>{{ track.rating|default_if_none:"Not rated" }}</td>
             </tr>
             <tr>
                 <th>Sample Rate</th>
@@ -114,11 +114,11 @@
             </tr>
             <tr>
                 <th>Skip Count</th>
-                <td>{{ track.skip_count }}</td>
+                <td>{{ track.skip_count|default_if_none:0 }}</td>
             </tr>
             <tr>
                 <th>Skip Date</th>
-                <td>{{ track.skip_date }}</td>
+                <td>{{ track.skip_date|default_if_none:"Never" }}</td>
             </tr>
             <tr>
                 <th>Total time</th>
