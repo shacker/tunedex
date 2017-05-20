@@ -4,7 +4,7 @@ from django.db.models.functions import Lower
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
 
-from itl.models import Album, Track, Kind, Artist, Playlist, LibraryData
+from itl.models import Album, Track, Kind, Artist, Playlist, LibraryData, Genre
 
 
 def dashboard(request):
@@ -48,12 +48,18 @@ class ArtistDetailView(generic.DetailView):
 
 def track_list(request):
 
+    # For select dropdowns
+    genres = Genre.objects.all().order_by('name')
+    years = Track.objects.exclude(year=None).order_by('-year').values_list('year', flat=True).distinct()
+
     qs = Track.objects.all().order_by(Lower('title'))
     year = request.GET.get('year')
     genre = request.GET.get('genre')
     if year:
+        year = int(year)
         qs = qs.filter(year=year)
     if genre:
+        genre = int(genre)
         qs = qs.filter(genre__id=genre)
 
     paginator = Paginator(qs, settings.NUM_TRACKS_PER_PLAYLIST_PAGE)

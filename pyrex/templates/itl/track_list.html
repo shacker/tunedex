@@ -4,7 +4,27 @@
 {% block title %}{{ block.super }} Track List{% endblock title %}
 
 {% block content %}
-    <h1>Track List</h1>
+    <h1>Tracks</h1>
+
+    <form class="form-inline" style="margin-bottom: 10px;">
+        <div class="form-group">
+            <select class="form-control" id="genre_select">
+                <option value="">Genre</option>
+                {% for g in genres %}
+                    <option value="{{ g.id }}" {% if g.id == genre %}selected{% endif %}>{{ g.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <select class="form-control" id="year_select">
+                <option value="">Year</option>
+                {% for y in years %}
+                    <option value="{{ y }}" {% if y == year %}selected{% endif %}>{{ y }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </form>
 
     {% if tracks %}
         <div class="table-responsive">
@@ -34,3 +54,34 @@
         <p>There are no tracks in the library.</p>
     {% endif %}
 {% endblock %}
+
+{% block extra_js %}
+    <script>
+        // As params are toggled, don't leave the old ones in place
+        function replaceUrlParam(url, paramName, paramValue){
+            if(paramValue == null)
+                paramValue = '';
+            var pattern = new RegExp('\\b('+paramName+'=).*?(&|$)')
+            if(url.search(pattern)>=0){
+                return url.replace(pattern,'$1' + paramValue + '$2');
+            }
+            return url + (url.indexOf('?')>0 ? '&' : '?') + paramName + '=' + paramValue
+        }
+
+        $(function(){
+            $('#genre_select').on('change', function () {
+                var url = replaceUrlParam(window.location.href, "genre", $(this).val());
+                window.location = url;
+                return false;
+            });
+        });
+
+        $(function(){
+            $('#year_select').on('change', function () {
+                var url = replaceUrlParam(window.location.href, "year", $(this).val());
+                window.location = url;
+                return false;
+            });
+        });
+    </script>
+{% endblock extra_js %}

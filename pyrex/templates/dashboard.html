@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load humanize %}
+{% load static %}
 
 {% block title %}{{ block.super }} iTunes Deep Dive {% endblock title %}
 
@@ -545,3 +546,7 @@
     </div>
     <!-- /.row -->
 {% endblock content %}
+
+{% block extra_js %}
+    <script src="{% static "theme/data/morris-data.js" %}"></script>
+{% endblock extra_js %}

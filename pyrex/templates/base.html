@@ -288,10 +288,10 @@
                             <a href="#"><i class="fa fa-files-o fa-fw"></i> Listings<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="{% url 'albums' %}">Albums</a>
+                                    <a href="{% url 'tracks' %}">Tracks</a>
                                 </li>
                                 <li>
-                                    <a href="{% url 'tracks' %}">Tracks</a>
+                                    <a href="{% url 'albums' %}">Albums</a>
                                 </li>
                                 <li>
                                     <a href="{% url 'artists' %}">Artists</a>
@@ -406,9 +406,6 @@
     </div>
     <!-- /#wrapper -->
 
-    <!-- jQuery -->
-
-
     <script src="{% static "theme/vendor/jquery/jquery.min.js" %}"></script>
 
     <!-- Bootstrap Core JavaScript -->
@@ -420,9 +417,10 @@
     <!-- Morris Charts JavaScript -->
     <script src="{% static "theme/vendor/raphael/raphael.min.js" %}"></script>
     <script src="{% static "theme/vendor/morrisjs/morris.min.js" %}"></script>
-    <script src="{% static "theme/data/morris-data.js" %}"></script>
 
-    <!-- Custom Theme JavaScript -->
+    {% block extra_js %}{% endblock extra_js %}
+
+    <!-- Custom Theme JavaScript must come last -->
     <script src="{% static "theme/dist/js/sb-admin-2.js" %}></script>
 </body>
 
