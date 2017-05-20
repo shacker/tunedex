@@ -88,15 +88,6 @@ def track_detail(request, pid=None):
     return render(request, 'itl/track_detail.html', locals())
 
 
-class KindListView(generic.ListView):
-    model = Kind
-    paginate_by = 100
-
-
-class KindDetailView(generic.DetailView):
-    model = Kind
-
-
 class PlaylistListView(generic.ListView):
     model = Playlist
     paginate_by = 25

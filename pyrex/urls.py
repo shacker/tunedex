@@ -14,9 +14,6 @@ urlpatterns = [
     url(r'^tracks/$', views.track_list, name='tracks'),
     url(r'^tracks/(?P<pid>\w+)$', views.track_detail, name='track_detail'),
 
-    url(r'^kinds/$', views.KindListView.as_view(), name='kinds'),
-    url(r'^kinds/(?P<pk>\d+)$', views.KindDetailView.as_view(), name='kind_detail'),
-
     url(r'^playlists/$', views.PlaylistListView.as_view(), name='playlists'),
     url(r'^playlists/(?P<pk>\d+)$', views.playlist_detail, name='playlist_detail'),
 
