@@ -146,7 +146,7 @@
             </tr>
             <tr>
                 <th>Year</th>
-                <td>{{ track.year }}</td>
+                <td>{% if track.year %}<a href="{% url 'tracks' %}?year={{ track.year }}">{{ track.year }}</a>{% endif %}</td>
             </tr>
 
 

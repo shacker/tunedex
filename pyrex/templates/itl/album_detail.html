@@ -6,7 +6,7 @@
     <h1>Album: {{ album.title }} {% if album.artist %}(<a href="{% url 'artist_detail' album.artist.id %}">{{ album.artist }}</a>){% endif %}</h1>
 
     <p>
-        {% if album.year %}<strong>Year</strong>: {{ album.year }}{% endif %}
+        {% if album.year %}<strong>Year</strong>: <a href="{% url 'tracks' %}?year={{ album.year }}">{{ album.year }}</a>{% endif %}
         {% if album.album_rating %} | <strong>Album Rating</strong>: {{ album.get_album_rating }}{% endif %}
     </p>
 
