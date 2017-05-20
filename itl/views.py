@@ -4,7 +4,7 @@ from django.db.models.functions import Lower
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
 
-from itl.models import Album, Track, Kind, Artist, Playlist
+from itl.models import Album, Track, Kind, Artist, Playlist, LibraryData
 
 
 def dashboard(request):
@@ -12,6 +12,7 @@ def dashboard(request):
     albums_count = Album.objects.all().count()
     tracks_count = Track.objects.all().count()
     playlists_count = Playlist.objects.all().count()
+    sitemeta, created = LibraryData.objects.get_or_create(pk=1)
     return render(request, 'dashboard.html', locals(),)
 
 

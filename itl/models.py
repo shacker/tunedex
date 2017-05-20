@@ -152,3 +152,8 @@ class PlaylistEntry(models.Model):
 
     class Meta:
         ordering = ["playlist_order"]
+
+
+class LibraryData(models.Model):
+    # Metadata for the Library. Should be just one row of this table.
+    last_snapshot = models.DateTimeField(null=True)

@@ -9,7 +9,7 @@ from django.utils import timezone
 
 from pyItunes import Library
 
-from itl.models import Artist, Album, Track, Genre, Kind, TrackType, Playlist, PlaylistEntry
+from itl.models import Artist, Album, Track, Genre, Kind, TrackType, Playlist, PlaylistEntry, LibraryData
 
 
 class Command(BaseCommand):
@@ -136,7 +136,6 @@ class Command(BaseCommand):
                 # playlist.tracks as a queryset with additional playlist_order property on each record,
                 # but this will have to do for now.
                 plsong = next((x for x in pltracks if x.persistent_id == t.persistent_id), None)
-                print(plsong.playlist_order, plsong.name)
                 entries.append(PlaylistEntry(
                     track=t,
                     playlist=playlist,
@@ -144,3 +143,8 @@ class Command(BaseCommand):
                     )
                 )
             PlaylistEntry.objects.bulk_create(entries)
+
+        # Update snapshot datetime
+        sitemeta, created = LibraryData.objects.get_or_create(pk=1)
+        sitemeta.last_snapshot = datetime.datetime.now()
+        sitemeta.save()
