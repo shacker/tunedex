@@ -23,6 +23,7 @@ class GenreAdmin(admin.ModelAdmin):
 class KindAdmin(admin.ModelAdmin):
     ordering = ['name', ]
 
+
 admin.site.register(Album, AlbumAdmin)
 admin.site.register(Artist)
 admin.site.register(Genre, GenreAdmin)
