@@ -44,6 +44,10 @@ To set up tables in a default sqlite3 database, just run:
 
 Depending on the size of your collection, this could be a *long* process - for me, it takes around 30 minutes to catalog a 98,000-track library.
 
+Artwork
+
+Apple has this locked down tight. There is no reference to in the XML. Appears to be an encrypted connection between the obfuscated contents of the Album Artwork directory and the library. Case of beer to anyone who figures out how to bring in artwork!
+
 ------
 
 Examples for creating custom queries from command line
