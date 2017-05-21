@@ -49,7 +49,7 @@ class ArtistDetailView(generic.DetailView):
 
 def track_list(request):
 
-    # For select dropdowns
+    # For select dropdowns. n.b. kinds is respected in queries but not shown as dropdown or column
     genres = Genre.objects.all().order_by('name')
     years = Track.objects.exclude(year=None).order_by('-year').values_list('year', flat=True).distinct()
     kinds = Kind.objects.all().order_by('name')

@@ -43,7 +43,6 @@
               <th>Album</th>
               <th>Year</th>
               <th>Genre</th>
-              <th>Kind</th>
               {% for track in tracks %}
               <tr>
                   <td><a href="{% url 'track_detail' track.persistent_id %}">{{ track.title }}</a></td>
@@ -51,7 +50,6 @@
                   <td>{% if track.album %}<a href="{% url 'album_detail' track.album.id %}">{{ track.album }}</a>{% endif %}</td>
                   <td>{% if track.year %}<a href="{% url 'tracks' %}?year={{ track.year }}">{{ track.year }}</a>{% endif %}</td>
                   <td>{% if track.genre %}<a href="{% url 'tracks' %}?genre={{ track.genre.id }}">{{ track.genre }}</a>{% endif %}</td>
-                  <td>{{ track.kind|default_if_none:"" }}</td>
               </tr>
               {% endfor %}
           </table>
@@ -90,14 +88,6 @@
         $(function(){
             $('#year_select').on('change', function () {
                 var url = replaceUrlParam(window.location.href, "year", $(this).val());
-                window.location = url;
-                return false;
-            });
-        });
-
-        $(function(){
-            $('#kind_select').on('change', function () {
-                var url = replaceUrlParam(window.location.href, "kind", $(this).val());
                 window.location = url;
                 return false;
             });
