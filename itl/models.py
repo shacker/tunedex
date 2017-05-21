@@ -7,6 +7,11 @@ class Artist(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        indexes = [
+            models.Index(fields=['name', ]),
+        ]
+
 
 class Album(models.Model):
     title = models.CharField(default="Album Unknown", max_length=255)
@@ -23,6 +28,11 @@ class Album(models.Model):
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['title', ]),
+        ]
 
 
 class Genre(models.Model):
@@ -137,7 +147,7 @@ class Track(models.Model):
 
     class Meta:
         indexes = [
-            models.Index(fields=['persistent_id', ]),
+            models.Index(fields=['comments', 'persistent_id', 'title', ]),
         ]
 
 
