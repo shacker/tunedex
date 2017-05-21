@@ -9,7 +9,7 @@ urlpatterns = [
     url(r'^albums/(?P<pk>\d+)$', views.AlbumDetailView.as_view(), name='album_detail'),
 
     url(r'^artists/$', views.ArtistListView.as_view(), name='artists'),
-    url(r'^artists/(?P<pk>\d+)$', views.ArtistDetailView.as_view(), name='artist_detail'),
+    url(r'^artists/(?P<pk>\d+)$', views.artist_detail, name='artist_detail'),
 
     url(r'^tracks/$', views.track_list, name='tracks'),
     url(r'^tracks/(?P<pid>\w+)$', views.track_detail, name='track_detail'),

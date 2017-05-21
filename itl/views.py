@@ -43,8 +43,10 @@ class ArtistListView(generic.ListView):
         return Artist.objects.order_by(Lower('name'))
 
 
-class ArtistDetailView(generic.DetailView):
-    model = Artist
+def artist_detail(request, pk=None):
+    artist = get_object_or_404(Artist, pk=pk)
+    albums = Album.objects.filter(artist=artist).order_by('-year')
+    return render(request, 'itl/artist_detail.html', locals())
 
 
 def track_list(request):
@@ -60,7 +62,7 @@ def track_list(request):
     kind = request.GET.get('kind')
     q = request.GET.get('q')
     if q:
-        qs = Track.objects.annotate(search=SearchVector(
+        qs = Track.objects.select_related('artist').select_related('album').annotate(search=SearchVector(
             'title', 'comments', 'artist__name', 'album__title')).filter(search=q)
     if year:
         year = int(year)
@@ -71,6 +73,8 @@ def track_list(request):
     if kind:
         kind = int(kind)
         qs = qs.filter(kind__id=kind)
+
+    qs = qs.order_by('title')
 
     paginator = Paginator(qs, settings.NUM_TRACKS_PER_PLAYLIST_PAGE)
     page = request.GET.get('page', 1)

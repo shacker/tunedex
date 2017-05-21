@@ -5,19 +5,19 @@
 {% block content %}
     <h1>Artist: {{ artist.name }}</h1>
 
-    {% if artist.album_set.all %}
+    {% if albums %}
         <h3>Albums:</h3>
         <div class="table-responsive">
           <table class="table table-striped">
-              {% for album in artist.album_set.all %}
+              {% for album in albums %}
               <tr>
                   <td><a href="{% url 'album_detail' album.id %}">{{ album.title }}</a></td>
-                  <td>{{ album.year }}</td>
+                  <td>{{ album.year|default_if_none:"" }}</td>
               </tr>
               {% endfor %}
           </table>
     {% else %}
-        <p>This arist does not appear on any albums (or a bug prevented the album reference).</p>
+        <p>This artist does not appear on any albums (or a bug prevented the album reference).</p>
     {% endif %}
 
 {% endblock %}
