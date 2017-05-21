@@ -24,25 +24,16 @@
                 {% endfor %}
             </select>
         </div>
-
-        <div class="form-group">
-            <select class="form-control" id="kind_select">
-                <option value="">Kind</option>
-                {% for k in kinds %}
-                    <option value="{{ k.id }}" {% if k.id == kind %}selected{% endif %}>{{ k }}</option>
-                {% endfor %}
-            </select>
-        </div>
     </form>
 
     {% if tracks %}
         <div class="table-responsive">
           <table class="table table-striped">
-              <th>Track</th>
-              <th>Artist</th>
-              <th>Album</th>
-              <th>Year</th>
-              <th>Genre</th>
+              <th class="col-md-4">Track</th>
+              <th class="col-md-3">Artist</th>
+              <th class="col-md-3">Album</th>
+              <th class="col-md-1">Year</th>
+              <th class="col-md-1">Genre</th>
               {% for track in tracks %}
               <tr>
                   <td><a href="{% url 'track_detail' track.persistent_id %}">{{ track.title }}</a></td>
