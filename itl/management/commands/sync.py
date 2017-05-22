@@ -149,5 +149,5 @@ class Command(BaseCommand):
 
         # Update snapshot datetime
         sitemeta, created = LibraryData.objects.get_or_create(pk=1)
-        sitemeta.last_snapshot = datetime.datetime.now()
+        sitemeta.last_snapshot = timezone.now()
         sitemeta.save()
