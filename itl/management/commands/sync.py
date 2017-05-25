@@ -44,7 +44,18 @@ class Command(BaseCommand):
             itl = pickle.load(open(pickle_file, "rb"))
         else:
             itl = Library(lib_path)
+        self.itl = itl
 
+        self.import_songs(**options)
+        self.import_playlists(**options)
+        self.update_snapshot()
+
+    def import_songs(self, **options):
+        '''
+        Import all songs in library XMl.
+        '''
+
+        itl = self.itl
         # Optionally limit to a partial lib for testing
         limit = options['limit'] if options['limit'] else 99999999999999
         songcount = len(itl.songs)
@@ -125,7 +136,12 @@ class Command(BaseCommand):
                 # Because this is a rare exception, deciding to skip rather than use BigIntegerField everywhere.
                 pass
 
-        # Create playlists, emptying old ones first
+    def import_playlists(self, **options):
+        '''
+        Create playlists, emptying old ones first
+        '''
+
+        itl = self.itl
         PlaylistEntry.objects.all().delete()
         plists = [itl.getPlaylist(p) for p in itl.getPlaylistNames()]
         # plists = [itl.getPlaylist("foo"), ]
@@ -153,6 +169,7 @@ class Command(BaseCommand):
                 )
             PlaylistEntry.objects.bulk_create(entries)
 
+    def update_snapshot(self):
         # Update snapshot datetime
         sitemeta, created = LibraryData.objects.get_or_create(pk=1)
         sitemeta.last_snapshot = timezone.now()

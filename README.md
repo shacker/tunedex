@@ -64,3 +64,11 @@ Optionally override NUM_TRACKS_PER_PLAYLIST_PAGE
 To sync only certain playlists, pass in comma-separated playlist names, *exactly spelled and quoted, with no spaces between playlist names*, e.g.:
 
 `./manage.py sync 'Hi-Fi','Super Favorites'``
+
+---
+
+set timezone in local.py. To list all zones, do:
+
+import pytz
+for zone in pytz.all_timezones:
+    print(zone)
