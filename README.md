@@ -72,3 +72,8 @@ set timezone in local.py. To list all zones, do:
 import pytz
 for zone in pytz.all_timezones:
     print(zone)
+
+--
+
+For testing: Limit to just n songs with e.g.
+./manage.py sync 500
