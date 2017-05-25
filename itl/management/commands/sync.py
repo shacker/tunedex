@@ -6,8 +6,9 @@ import time
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.utils import timezone
+from django.db.utils import DataError
 
-from pyItunes import Library
+from libpytunes import Library
 
 from itl.models import Artist, Album, Track, Genre, Kind, TrackType, Playlist, PlaylistEntry, LibraryData
 
@@ -114,10 +115,15 @@ class Command(BaseCommand):
                 'year': song.year,
             }
 
-            track, created = Track.objects.update_or_create(
-                persistent_id=song.persistent_id,
-                defaults=track_data,
-            )
+            try:
+                track, created = Track.objects.update_or_create(
+                    persistent_id=song.persistent_id,
+                    defaults=track_data,
+                )
+            except DataError:
+                # Probably a video file, too large to fit into Django IntegerField.
+                # Because this is a rare exception, deciding to skip rather than use BigIntegerField everywhere.
+                pass
 
         # Create playlists, emptying old ones first
         PlaylistEntry.objects.all().delete()
