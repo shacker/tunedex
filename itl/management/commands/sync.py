@@ -29,6 +29,12 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('limit', nargs='?', type=int)
 
+    def __init__(self):
+        self.tracks_added = 0
+        self.tracks_updated = 0
+        self.playlists_added = 0
+        self.playlists_updated = 0
+
     def handle(self, *args, **options):
 
         lib_path = settings.LIBRARY_PATH
@@ -48,7 +54,8 @@ class Command(BaseCommand):
 
         self.import_songs(**options)
         self.import_playlists(**options)
-        self.update_snapshot()
+        self.update_snapshot_time()
+        self.report()
 
     def import_songs(self, **options):
         '''
@@ -131,6 +138,10 @@ class Command(BaseCommand):
                     persistent_id=song.persistent_id,
                     defaults=track_data,
                 )
+                if created:
+                    self.tracks_added += 1
+                else:
+                    self.tracks_updated += 1
             except DataError:
                 # Probably a video file, too large to fit into Django IntegerField.
                 # Because this is a rare exception, deciding to skip rather than use BigIntegerField everywhere.
@@ -145,10 +156,14 @@ class Command(BaseCommand):
         PlaylistEntry.objects.all().delete()
         plists = [itl.getPlaylist(p) for p in itl.getPlaylistNames()]
         # plists = [itl.getPlaylist("foo"), ]
-        print("\n{c} playlists found".format(c=len(plists)))
         for pl in plists:
             entries = []
             playlist, created = Playlist.objects.get_or_create(name=pl.name)
+            if created:
+                self.playlists_added += 1
+            else:
+                self.playlists_updated += 1
+
             print("Adding tracks to playlist {0}".format(pl.name))
             for itl_trak in pl.tracks:
                 entries.append(PlaylistEntry(
@@ -159,8 +174,16 @@ class Command(BaseCommand):
                 )
             PlaylistEntry.objects.bulk_create(entries)
 
-    def update_snapshot(self):
-        # Update snapshot datetime
+    def update_snapshot_time(self):
+        # Update snapshot timestamp
         sitemeta, created = LibraryData.objects.get_or_create(pk=1)
         sitemeta.last_snapshot = timezone.now()
         sitemeta.save()
+
+    def report(self):
+        print("\n{n} tracks added".format(n=self.tracks_added))
+        print("{n} tracks updated".format(n=self.tracks_updated))
+        print("{n} playlists added".format(n=self.playlists_added))
+        print("{n} playlists updated".format(n=self.playlists_updated))
+        print("\nTotal tracks: {n}".format(n=self.tracks_added + self.tracks_updated))
+        print("Total playlists: {n}".format(n=self.playlists_added + self.playlists_updated))
