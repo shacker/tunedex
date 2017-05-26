@@ -11,6 +11,7 @@ from django.db.utils import DataError
 from libpytunes import Library
 
 from itl.models import Artist, Album, Track, Genre, Kind, TrackType, Playlist, PlaylistEntry, LibraryData
+from pytz.exceptions import AmbiguousTimeError
 
 
 class Command(BaseCommand):
@@ -21,10 +22,13 @@ class Command(BaseCommand):
         iTunes stores timestamps as struct_time fields, but in Django we're using DateTime fields.
         Convert if possible, or return None.
         '''
+        ts = None
         if struct_time:
-            return timezone.make_aware(datetime.datetime.fromtimestamp(time.mktime(struct_time)))
-        else:
-            return None
+            try:
+                ts = timezone.make_aware(datetime.datetime.fromtimestamp(time.mktime(struct_time)))
+            except AmbiguousTimeError:
+                ts = None
+        return ts
 
     def add_arguments(self, parser):
         parser.add_argument('limit', nargs='?', type=int)
