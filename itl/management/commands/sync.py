@@ -147,24 +147,14 @@ class Command(BaseCommand):
         # plists = [itl.getPlaylist("foo"), ]
         print("\n{c} playlists found".format(c=len(plists)))
         for pl in plists:
+            entries = []
             playlist, created = Playlist.objects.get_or_create(name=pl.name)
             print("Adding tracks to playlist {0}".format(pl.name))
-            pltracks = pl.tracks
-            persistent_ids = [t.persistent_id for t in pltracks]
-            addtraks = Track.objects.filter(persistent_id__in=persistent_ids)
-            entries = []
-            for t in addtraks:
-                # For each Track object, create a PlaylistEntry with playlist_order.
-                # To get the playlist_order val, which is only present on pl.tracks. not on Track objects,
-                # we need to query for the value of a property from a list of objects (pltracks)
-                # This is unfortunately expensive - would be better if pyitunes returned
-                # playlist.tracks as a queryset with additional playlist_order property on each record,
-                # but this will have to do for now.
-                plsong = next((x for x in pltracks if x.persistent_id == t.persistent_id), None)
+            for itl_trak in pl.tracks:
                 entries.append(PlaylistEntry(
-                    track=t,
+                    track=Track.objects.get(persistent_id=itl_trak.persistent_id),
                     playlist=playlist,
-                    playlist_order=plsong.playlist_order
+                    playlist_order=itl_trak.playlist_order
                     )
                 )
             PlaylistEntry.objects.bulk_create(entries)
