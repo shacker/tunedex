@@ -58,7 +58,13 @@
             </tr>
             <tr>
                 <th>Genre</th>
-                <td>{{ track.genre }}</td>
+                <td>
+                    {% if track.genre %}
+                        <a href="{% url 'tracks' %}?genre={{ track.genre.id }}">{{ track.genre }}</a>
+                    {% else %}
+                        None
+                    {% endif %}
+                </td>
             </tr>
             <tr>
                 <th>Grouping</th>
