@@ -21,7 +21,7 @@
         <tr>
             <td>{{ track.track_number }}</td>
             <td><a href="{% url 'track_detail' track.persistent_id %}">{{ track.title }}</a></td>
-            <td>{{ track.play_count }}</td>
+            <td>{{ track.play_count|default_if_none:0 }}</td>
         </tr>
         {% endfor %}
     </table>
