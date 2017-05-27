@@ -9,6 +9,8 @@
         <h3>Albums:</h3>
         <div class="table-responsive">
           <table class="table table-striped">
+              <th class="col-md-11">Title</th>
+              <th class="col-md-1">Year</th>
               {% for album in albums %}
               <tr>
                   <td><a href="{% url 'album_detail' album.id %}">{{ album.title }}</a></td>
@@ -16,8 +18,18 @@
               </tr>
               {% endfor %}
           </table>
+      </div>
     {% else %}
-        <p>This artist does not appear on any albums (or a bug prevented the album reference).</p>
+        <p>This artist does not appear on any albums of their own (they may appear on compilations or under a different spelling).</p>
+    {% endif %}
+
+    {% if tracks %}
+        <h3>Tracks:</h3>
+        <div class="table-responsive">
+            {% include "include/track_listing.html" %}
+      </div>
+    {% else %}
+        <p>This artist does not appear on any albums (they may appear under a different spelling).</p>
     {% endif %}
 
 {% endblock %}

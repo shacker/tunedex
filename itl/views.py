@@ -46,6 +46,7 @@ class ArtistListView(generic.ListView):
 def artist_detail(request, pk=None):
     artist = get_object_or_404(Artist, pk=pk)
     albums = Album.objects.filter(artist=artist).order_by('-year')
+    tracks = artist.track_set.all()
     return render(request, 'itl/artist_detail.html', locals())
 
 
