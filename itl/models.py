@@ -18,11 +18,12 @@ class Album(models.Model):
     artist = models.ForeignKey(Artist, null=True, blank=True, on_delete=models.SET_NULL)
     year = models.PositiveSmallIntegerField(null=True, blank=True)
     album_rating = models.IntegerField(null=True, blank=True)
+    album_loved = models.BooleanField(default=False)
 
     def get_album_rating(self):
         # Convert e.g. 80 (implied 80/100) to 4
         try:
-            return int(self.album_rating) / 5 / 2
+            return int(self.album_rating) / 10 / 2
         except (ValueError, ZeroDivisionError):
             return None
 

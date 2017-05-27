@@ -7,8 +7,9 @@
 
     <p>
         {% if album.artist %}<strong>Artist</strong>: <a href="{% url 'artist_detail' album.artist.id %}">{{ album.artist }}</a>{% endif %}
-        {% if album.year %} | <strong>Year</strong>: <a href="{% url 'tracks' %}?year={{ album.year }}">{{ album.year }}</a>{% endif %}
-        {% if album.album_rating %} | <strong>Album Rating</strong>: {{ album.get_album_rating }}{% endif %}
+        {% if album.year %} &nbsp;  &nbsp;  <strong>Year</strong>: <a href="{% url 'tracks' %}?year={{ album.year }}">{{ album.year }}</a>{% endif %}
+        &nbsp; &nbsp;  <strong>Album Loved</strong>: {% if album.album_loved %}<i class="fa fa-heart"></i>{% else %}<i class="fa fa-heart-o"></i>{% endif %}
+        {% if album.album_rating %} &nbsp; &nbsp;  <strong>Album Rating</strong>: {{ album.get_album_rating }}{% endif %}
     </p>
 
     <table class="table table-striped">

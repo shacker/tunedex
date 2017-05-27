@@ -90,7 +90,13 @@ class Command(BaseCommand):
                 # Quasi-bug: Each song will reset year and rating on album, which may or may not be correct
                 album, created = Album.objects.get_or_create(
                     title=song.album,
-                    defaults={'artist': artist, 'year': song.year, 'album_rating': song.album_rating})
+                    defaults={
+                        'artist': artist,
+                        'year': song.year,
+                        'album_rating': song.album_rating,
+                        'album_loved': song.album_loved
+                        }
+                    )
 
             if song.genre:
                 genre, created = Genre.objects.get_or_create(name=song.genre)
