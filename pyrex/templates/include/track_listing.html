@@ -1,9 +1,10 @@
 <table class="table table-striped">
-    <th class="col-md-4">Track</th>
+    <th class="col-md-3">Track</th>
     <th class="col-md-3">Artist</th>
     <th class="col-md-3">Album</th>
     <th class="col-md-1">Year</th>
     <th class="col-md-1">Genre</th>
+    <th class="col-md-1">Loved</th>
     {% for track in tracks %}
     <tr>
         <td><a href="{% url 'track_detail' track.persistent_id %}">{{ track.title }}</a></td>
@@ -11,6 +12,7 @@
         <td>{% if track.album %}<a href="{% url 'album_detail' track.album.id %}">{{ track.album }}</a>{% endif %}</td>
         <td>{% if track.year %}<a href="{% url 'tracks' %}?year={{ track.year }}">{{ track.year }}</a>{% endif %}</td>
         <td>{% if track.genre %}<a href="{% url 'tracks' %}?genre={{ track.genre.id }}">{{ track.genre }}</a>{% endif %}</td>
+        <td>{% if track.loved %}<i class="fa fa-heart"></i>{% else %}<i class="fa fa-heart-o"></i>{% endif %}</td>
     </tr>
     {% endfor %}
 </table>

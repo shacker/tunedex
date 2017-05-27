@@ -84,7 +84,7 @@
             </tr>
             <tr>
                 <th>Loved</th>
-                <td>{{ track.loved }}</td>
+                <td>{% if track.loved %}<i class="fa fa-heart"></i>{% else %}<i class="fa fa-heart-o"></i>{% endif %}</td>
             </tr>
             <tr>
                 <th>Movement Count</th>
