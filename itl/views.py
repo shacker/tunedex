@@ -30,8 +30,9 @@ class AlbumDetailView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        tracks = self.object.track_set.all().order_by('track_number')
+        tracks = self.object.track_set.all().order_by('disc_number', 'track_number')
         context['tracks'] = tracks
+        context['multidisc'] = True if len(set([t.disc_number for t in tracks])) > 1 else False
         return context
 
 
