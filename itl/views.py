@@ -3,7 +3,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models.functions import Lower
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
-from django.contrib.postgres.search import SearchVector
+from django.db.models import Q
 
 from itl.models import Album, Track, Kind, Artist, Playlist, LibraryData, Genre
 
@@ -64,8 +64,19 @@ def track_list(request):
     kind = request.GET.get('kind')
     q = request.GET.get('q')
     if q:
-        qs = Track.objects.select_related('artist').select_related('album').annotate(search=SearchVector(
-            'title', 'comments', 'artist__name', 'album__title')).filter(search=q)
+
+        # SearchVector with annotate is slow for now: https://code.djangoproject.com/ticket/27719
+        # from django.contrib.postgres.search import SearchVector
+        # qs = Track.objects.select_related('artist').select_related('album').select_related('genre').annotate(search=SearchVector(
+        #     'title', 'comments', 'artist__name', 'album__title')).filter(search=q)
+
+        qs = Track.objects.select_related('artist').select_related('album').select_related('genre').filter(
+            Q(title__icontains=q) |
+            Q(comments__icontains=q) |
+            Q(artist__name__icontains=q) |
+            Q(album__title__icontains=q)
+        )
+
     if year:
         year = int(year)
         qs = qs.filter(year=year)
