@@ -77,3 +77,7 @@ for zone in pytz.all_timezones:
 
 For testing: Limit to just n songs with e.g.
 ./manage.py sync 500
+
+--
+
+Add facebook and twitter usernames to admin settings

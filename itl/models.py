@@ -168,3 +168,11 @@ class PlaylistEntry(models.Model):
 class LibraryData(models.Model):
     # Metadata for the Library. Should be just one row of this table.
     last_snapshot = models.DateTimeField(null=True)
+    twitter = models.CharField(max_length=255, blank=True)
+    facebook = models.CharField(max_length=255, blank=True)
+
+    def __str__(self):
+        return "Metadata for this library"
+
+    class Meta:
+        verbose_name_plural = "Library Metadata"

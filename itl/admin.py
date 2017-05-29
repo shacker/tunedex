@@ -1,5 +1,5 @@
 from django.contrib import admin
-from itl.models import Album, Artist, Genre, Track, Kind
+from itl.models import Album, Artist, Genre, Track, Kind, LibraryData
 
 
 class AlbumAdmin(admin.ModelAdmin):
@@ -24,6 +24,7 @@ class KindAdmin(admin.ModelAdmin):
     ordering = ['name', ]
 
 
+admin.site.register(LibraryData)
 admin.site.register(Album, AlbumAdmin)
 admin.site.register(Artist)
 admin.site.register(Genre, GenreAdmin)
