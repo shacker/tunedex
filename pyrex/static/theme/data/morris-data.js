@@ -61,20 +61,17 @@ $(function() {
         resize: true
     });
 
-    Morris.Donut({
-        element: 'morris-donut-chart',
-        data: [{
-            label: "Download Sales",
-            value: 12
-        }, {
-            label: "In-Store Sales",
-            value: 30
-        }, {
-            label: "Mail-Order Sales",
-            value: 20
-        }],
-        resize: true
-    });
+    function drawDashboardGenres() {
+        $.getJSON("/json/dashboard_genres_donut_data/", function (json) {
+            Morris.Donut({
+                element: 'dashboard-genres-donut-chart',
+                data: json,
+                resize: true
+            });
+        });
+    }
+    drawDashboardGenres();
+
 
     Morris.Bar({
         element: 'morris-bar-chart',
@@ -113,5 +110,5 @@ $(function() {
         hideHover: 'auto',
         resize: true
     });
-    
+
 });

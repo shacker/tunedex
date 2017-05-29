@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.conf import settings
 
 from itl import views
+from itl import json_views as json_views
 
 urlpatterns = [
     url(r'^$', views.dashboard, name='dashboard'),
@@ -17,6 +18,11 @@ urlpatterns = [
 
     url(r'^playlists/$', views.PlaylistListView.as_view(), name='playlists'),
     url(r'^playlists/(?P<pk>\d+)$', views.playlist_detail, name='playlist_detail'),
+
+    # JSON views
+
+    url(r'^json/dashboard_genres_donut_data/$', json_views.dashboard_genres_donut_data, name='dashboard_genres_donut_data'),
+
 
     url(r'^admin/', admin.site.urls),
 ]
