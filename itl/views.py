@@ -132,3 +132,7 @@ def playlist_detail(request, pk=None):
         tracks = paginator.page(paginator.num_pages)
 
     return render(request, 'itl/playlist_detail.html', locals())
+
+
+def genre_donut(request):
+    return render(request, 'itl/chart_genre_donut.html', locals())

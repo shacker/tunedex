@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}{{ block.super }} Top Genres{% endblock title %}
+
+{% block content %}
+
+    <h1>Top Genres</h1>
+    <div class="container">
+        <div class="col-md-6">
+        	<div id="genres-donut-chart"></div>
+            <p class="text-center"><small><em>Roll over segments for genres. Click for details.</em></small></p>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        $(function() {
+            function drawDashboardGenres() {
+                $.getJSON("/json/genres_donut_data/20/", function (json) {
+                    Morris.Donut({
+                        element: 'genres-donut-chart',
+                        data: json,
+                        resize: true
+                    });
+                });
+            }
+            drawDashboardGenres();
+        });
+    </script>
+{% endblock extra_js %}
