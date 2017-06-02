@@ -67,6 +67,8 @@ $(function() {
                 element: 'dashboard-genres-donut-chart',
                 data: json,
                 resize: true
+            }).on('click', function(i, row) {
+                location.href = "/tracks/?genre=" + row.id;
             });
         });
     }
