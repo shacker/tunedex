@@ -62,7 +62,7 @@ $(function() {
     });
 
     function drawDashboardGenres() {
-        $.getJSON("/json/genres_donut_data/", function (json) {
+        $.getJSON("/json/genres_data/", function (json) {
             Morris.Donut({
                 element: 'dashboard-genres-donut-chart',
                 data: json,

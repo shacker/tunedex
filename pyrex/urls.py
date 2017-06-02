@@ -19,11 +19,13 @@ urlpatterns = [
     url(r'^playlists/$', views.PlaylistListView.as_view(), name='playlists'),
     url(r'^playlists/(?P<pk>\d+)$', views.playlist_detail, name='playlist_detail'),
 
+    # Charts
     url(r'^charts/genres_donut/$', views.genre_donut, name='genre_donut'),
 
     # JSON views
-    url(r'^json/genres_donut_data/(?P<num_genres>\d+)/$', json_views.genres_donut_data, name='genres_donut_data'),
-    url(r'^json/genres_donut_data/$', json_views.genres_donut_data, name='genres_donut_data'),
+    url(r'^json/genres_data/(?P<num_genres>\d+)/$', json_views.genres_data, name='genres_data'),
+    url(r'^json/genres_data/$', json_views.genres_data, name='genres_data'),
+    # url(r'^json/kinds_donut_data/$', json_views.kinds_donut_data, name='kinds_donut_data'),
 
 
     url(r'^admin/', admin.site.urls),

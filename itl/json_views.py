@@ -4,7 +4,7 @@ from django.db.models import Count
 from itl.models import Genre
 
 
-def genres_donut_data(request, num_genres=None):
+def genres_data(request, num_genres=None):
     # Generate data to show top 5 genres on dashboard
     num_genres = int(num_genres) if num_genres else 10
     genres = Genre.objects.annotate(num_tracks=Count('track')).order_by('-num_tracks')[:num_genres]
