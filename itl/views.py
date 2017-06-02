@@ -134,5 +134,9 @@ def playlist_detail(request, pk=None):
     return render(request, 'itl/playlist_detail.html', locals())
 
 
-def genre_donut(request):
-    return render(request, 'itl/chart_genre_donut.html', locals())
+def genres_donut(request):
+    return render(request, 'itl/chart_genres_donut.html', locals())
+
+
+def kinds_donut(request):
+    return render(request, 'itl/chart_kinds_donut.html', locals())

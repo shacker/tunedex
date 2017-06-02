@@ -20,13 +20,13 @@ urlpatterns = [
     url(r'^playlists/(?P<pk>\d+)$', views.playlist_detail, name='playlist_detail'),
 
     # Charts
-    url(r'^charts/genres_donut/$', views.genre_donut, name='genre_donut'),
+    url(r'^charts/genres_donut/$', views.genres_donut, name='genres_donut'),
+    url(r'^charts/kinds_donut/$', views.kinds_donut, name='kinds_donut'),
 
     # JSON views
     url(r'^json/genres_data/(?P<num_genres>\d+)/$', json_views.genres_data, name='genres_data'),
     url(r'^json/genres_data/$', json_views.genres_data, name='genres_data'),
-    # url(r'^json/kinds_donut_data/$', json_views.kinds_donut_data, name='kinds_donut_data'),
-
+    url(r'^json/kinds_data/(?P<num_kinds>\d+)/$', json_views.kinds_data, name='kinds_data'),
 
     url(r'^admin/', admin.site.urls),
 ]

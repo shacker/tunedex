@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}{{ block.super }} Top Kinds{% endblock title %}
+
+{% block content %}
+
+    <h1>Top Kinds</h1>
+    <div class="container">
+        <div class="col-md-6">
+        	<div id="genres-kinds-chart"></div>
+            <p class="text-center"><small><em>Roll over segments for kinds. Click for details.</em></small></p>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        $(function() {
+            function drawDashboardGenres() {
+                $.getJSON("/json/kinds_data/20/", function (json) {
+                    Morris.Donut({
+                        element: 'genres-kinds-chart',
+                        data: json,
+                        resize: true
+                    }).on('click', function(i, row) {
+                        location.href = "/tracks/?kinds=" + row.id;
+                    });
+                });
+            }
+            drawDashboardGenres();
+
+        });
+    </script>
+{% endblock extra_js %}
