@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}{{ block.super }} Top Genres{% endblock title %}
+
+{% block content %}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.min.js"></script>
+
+    <h1>Most-Played Tracks</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10">
+                <canvas id="most-played-bar-chart" ></canvas>
+                <p class="text-center"><small><em>Click tracks for details.</em></small></p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+
+        var num_tracks = 50;
+        var colors = randomColor({count: num_tracks, luminosity: 'bright', format: 'rgba', alpha: 0.5});
+
+        $.getJSON("/json/most_played_data/nnn/".replace("nnn", num_tracks), function (json) {
+            var labels = json.map(function(item) {
+                return " " + item.artist + " - " + item.title;
+            });
+            var data = json.map(function(item) {
+                return item.plays;
+            });
+            var persistent_ids = json.map(function(item) {
+                return item.persistent_id;
+            });
+
+            var data = {
+                labels: labels,
+                persistent_ids: persistent_ids,
+                datasets: [
+                    {
+                      label: "Play counts",
+                      strokeColor: "rgba(220,220,220,0.8)",
+                      highlightFill: "rgba(220,220,220,0.75)",
+                      highlightStroke: "rgba(220,220,220,1)",
+                      data: data,
+                      backgroundColor: colors
+                    }
+                ]
+            };
+
+            var canvas = document.getElementById("most-played-bar-chart");
+            var ctx = canvas.getContext('2d');
+
+            // ctx.canvas.width = 300;
+            ctx.canvas.height = 600;
+
+            var myNewChart = new Chart(ctx , {
+                type: "horizontalBar",
+                data: data,
+                options: {
+                    title: {
+                      display: true,
+                      text: 'Play counts of nnn most-played tracks'.replace("nnn", num_tracks)
+                    },
+                    legend: {
+                        display: false
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero:true,
+                                mirror: true  // Show labels on top of bars
+                            }
+                        }]
+                    }
+                }
+            });
+        });
+    </script>
+{% endblock extra_js %}

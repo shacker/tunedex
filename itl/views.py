@@ -140,3 +140,7 @@ def genres_donut(request):
 
 def kinds_donut(request):
     return render(request, 'itl/chart_kinds_donut.html', locals())
+
+
+def most_played_bar(request):
+    return render(request, 'itl/chart_most_played_bar.html', locals())
