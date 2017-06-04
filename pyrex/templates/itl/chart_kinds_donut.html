@@ -18,7 +18,7 @@
     <script>
         $(function() {
             function drawDashboardGenres() {
-                $.getJSON("/json/kind_data/20/", function (json) {
+                $.getJSON("/json/kinds_data/20/", function (json) {
                     Morris.Donut({
                         element: 'genres-kinds-chart',
                         data: json,
