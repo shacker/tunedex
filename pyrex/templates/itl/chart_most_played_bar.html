@@ -20,12 +20,12 @@
 {% block extra_js %}
     <script>
 
-        var num_tracks = 50;
+        var num_tracks = 35;
         var colors = randomColor({count: num_tracks, luminosity: 'bright', format: 'rgba', alpha: 0.5, seed: 4});
 
         $.getJSON("/json/most_played_data/nnn/".replace("nnn", num_tracks), function (json) {
             var data = {
-                labels: json.map(function(item) {return " " + item.artist + " - " + item.title;}),
+                labels: json.map(function(item) {return "  " + item.artist + " - " + item.title;}),
                 persistent_ids: json.map(function(item) {return item.persistent_id;}),
                 datasets: [
                     {
@@ -63,7 +63,11 @@
                         display: false
                     },
                     scales: {
+
                         yAxes: [{
+                            gridLines: {
+                                display:false
+                            },
                             ticks: {
                                 fontColor: "rgb(54, 54, 54)",
                                 beginAtZero:true,
