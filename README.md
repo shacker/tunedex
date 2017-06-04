@@ -80,4 +80,11 @@ For testing: Limit to just n songs with e.g.
 
 --
 
-Add facebook and twitter usernames to admin settings
+
+
+------
+
+bar chart colors:
+e.g.:
+var colors = randomColor({count: num_tracks, luminosity: 'bright', format: 'rgba', alpha: 0.5, seed: 4});
+For details see https://github.com/davidmerfield/randomColor

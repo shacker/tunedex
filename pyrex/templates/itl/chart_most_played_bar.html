@@ -21,33 +21,29 @@
     <script>
 
         var num_tracks = 50;
-        var colors = randomColor({count: num_tracks, luminosity: 'bright', format: 'rgba', alpha: 0.5});
+        var colors = randomColor({count: num_tracks, luminosity: 'bright', format: 'rgba', alpha: 0.5, seed: 4});
 
         $.getJSON("/json/most_played_data/nnn/".replace("nnn", num_tracks), function (json) {
-            var labels = json.map(function(item) {
-                return " " + item.artist + " - " + item.title;
-            });
-            var data = json.map(function(item) {
-                return item.plays;
-            });
-            var persistent_ids = json.map(function(item) {
-                return item.persistent_id;
-            });
-
             var data = {
-                labels: labels,
-                persistent_ids: persistent_ids,
+                labels: json.map(function(item) {return " " + item.artist + " - " + item.title;}),
+                persistent_ids: json.map(function(item) {return item.persistent_id;}),
                 datasets: [
                     {
                       label: "Play counts",
                       strokeColor: "rgba(220,220,220,0.8)",
                       highlightFill: "rgba(220,220,220,0.75)",
                       highlightStroke: "rgba(220,220,220,1)",
-                      data: data,
+                      data: json.map(function(item) {return item.plays;}),
                       backgroundColor: colors
                     }
                 ]
             };
+
+            function graphClickEvent(event, array) {
+                idx = array[0]._index;
+                persistent_id = (data.persistent_ids[idx]);
+                window.location = "/tracks/" + persistent_id;
+            }
 
             var canvas = document.getElementById("most-played-bar-chart");
             var ctx = canvas.getContext('2d');
@@ -69,11 +65,13 @@
                     scales: {
                         yAxes: [{
                             ticks: {
+                                fontColor: "rgb(54, 54, 54)",
                                 beginAtZero:true,
                                 mirror: true  // Show labels on top of bars
                             }
                         }]
-                    }
+                    },
+                    onClick: graphClickEvent  // Click to URL
                 }
             });
         });
