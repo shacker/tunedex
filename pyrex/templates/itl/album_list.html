@@ -8,9 +8,9 @@
     {% if album_list %}
     <div class="table-responsive">
         <table class="table table-striped">
-            <th>Album Title</th>
-            <th>Artist</th>
-            <th>Year</th>
+            <th class="col-md-5">Album Title</th>
+            <th class="col-md-4">Artist</th>
+            <th class="col-md-1">Year</th>
             {% for album in album_list %}
             <tr>
                 <td><a href="{% url 'album_detail' album.id %}">{{ album.title }}</a></td>
