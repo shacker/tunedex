@@ -14,7 +14,7 @@
             {% for playlist in playlist_list %}
             <tr>
                 <td><a href="{% url 'playlist_detail' playlist.id %}">{{ playlist.name }}</a></td>
-                <td>{{ playlist.track_set.all.count }}</td>
+                <td>{{ playlist.playlistentry_set.all.count }}</td>
             </tr>
             {% endfor %}
         </table>
