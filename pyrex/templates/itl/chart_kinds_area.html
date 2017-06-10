@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}{{ block.super }} Formats (Kinds){% endblock title %}
+
+{% block content %}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.min.js"></script>
+
+    <h1>Media Formats (Kinds)</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10">
+                <canvas id="kinds-area-chart" ></canvas>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+
+        $.getJSON("/json/media_formats_data/", function (json) {
+            var data = {
+                labels: json.labels,
+                datasets: json.datasets
+            };
+
+            num_formats = data.datasets.length;
+
+            // Interpolate color props onto received data
+            var colors = randomColor({count: num_formats, luminosity: 'bright', format: 'rgba', alpha: 0.5, seed: 2});
+            for (var i = 0, len = num_formats; i < len; i++) {
+                    data.datasets[i].backgroundColor = colors[i];
+            }
+
+            var canvas = document.getElementById("kinds-area-chart");
+            var ctx = canvas.getContext('2d');
+
+            var options = {};
+            var lineChart = new Chart(ctx, {
+                type: "line",
+                data: data,
+                options: {
+                    title: {
+                      display: true,
+                      text: 'Click legends to filter.'
+                    },
+                    legend: {
+                        display: true
+                    }
+                }
+            });
+        });
+    </script>
+{% endblock extra_js %}

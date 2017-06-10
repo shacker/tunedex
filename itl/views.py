@@ -144,3 +144,7 @@ def kinds_donut(request):
 
 def most_played_bar(request):
     return render(request, 'itl/chart_most_played_bar.html', locals())
+
+
+def kinds_area(request):
+    return render(request, 'itl/chart_kinds_area.html', locals())
