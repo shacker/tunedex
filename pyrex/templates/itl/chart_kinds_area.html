@@ -1,8 +1,10 @@
 {% extends "base.html" %}
+{% load cache %}
 
 {% block title %}{{ block.super }} Formats (Kinds){% endblock title %}
 
 {% block content %}
+    {% cache 60 * 60 chart_kinds_area %}
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.min.js"></script>
 
@@ -14,6 +16,7 @@
             </div>
         </div>
     </div>
+    {% endcache %}
 {% endblock %}
 
 {% block extra_js %}

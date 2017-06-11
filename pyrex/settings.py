@@ -100,6 +100,12 @@ DATABASES = {
 # Override in local settings
 LIBRARY_PATH = "/Users/[username]/Music/iTunes/iTunes Music Library.xml"
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': '/var/tmp/django_cache',
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
