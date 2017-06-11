@@ -56,10 +56,22 @@ class Command(BaseCommand):
             itl = Library(lib_path)
         self.itl = itl
 
+        self.clear_db()
         self.import_songs(**options)
         self.import_playlists(**options)
         self.update_snapshot_time()
         self.report()
+
+    def clear_db(self):
+        # Fresh start every time
+        Kind.objects.all().delete()
+        Album.objects.all().delete()
+        Artist.objects.all().delete()
+        Genre.objects.all().delete()
+        TrackType.objects.all().delete()
+        PlaylistEntry.objects.all().delete()
+        Playlist.objects.all().delete()
+        Track.objects.all().delete()
 
     def import_songs(self, **options):
         '''
