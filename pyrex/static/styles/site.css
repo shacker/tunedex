@@ -1,0 +1,7 @@
+.navbar  {
+    background-color: #3d4a69;
+}
+
+.navbar a.navbar-brand, .navbar a.dropdown-toggle {
+    color: #f5f5e1;
+}
