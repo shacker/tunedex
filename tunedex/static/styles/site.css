@@ -5,3 +5,7 @@
 .navbar a.navbar-brand, .navbar a.dropdown-toggle {
     color: #f5f5e1;
 }
+
+.nav>li>a:hover, .navbar .open>a:focus {
+    background-color: #6277aa;
+}
