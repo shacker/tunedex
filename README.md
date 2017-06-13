@@ -1,4 +1,5 @@
-# pyrex
+# Tunedex
+
 Summary: Convert iTunes' XML "database" to a real Django database and project for advanced querying, analysis, data visualization.
 
 consists of two parts:
@@ -22,7 +23,7 @@ Create your postgres or mysql database, and add to your `local.py`:
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'pyrex',
+        'NAME': 'tunedex',
         'USER': 'username',
         'PASSWORD': 'pass',
         'HOST': '127.0.0.1',
@@ -31,7 +32,7 @@ DATABASES = {
 }
 ```
 
-Unfortunately, sqlite3 is *not* supported by pyrex. I had originally intended to, but certain aspects of the sync process were extremely slow, and the optimization solution turned out not to work on sqlite ("too many variables" error). sync is around 3x faster on postgres with these optimizations, so it didn't seem worth the hit.
+Unfortunately, sqlite3 is *not* supported by tunedex. I had originally intended to, but certain aspects of the sync process were extremely slow, and the optimization solution turned out not to work on sqlite ("too many variables" error). sync is around 3x faster on postgres with these optimizations, so it didn't seem worth the hit.
 
 Interesting data point on the power of Django's `bulk_create()` method. If we use the naive `objects.create()` on each instance, time to populate the database with ~100k tracks on my machine is 34m41s. With `bulk_create()`, that number drops to 6 minutes. Unfortunately, there is no equivalent of `objects.get_or_create()` with `bulk_create()`, which means we'd end up with duplicates on every sync, unless we deleted all Track objects first on every run, which would nullify the benefit. So we don't use `bulk_create()`.
 
