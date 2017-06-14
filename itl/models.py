@@ -130,7 +130,7 @@ class Track(models.Model):
     track_count = models.IntegerField(null=True, blank=True)
     track_type = models.ForeignKey(TrackType, blank=True, null=True, related_name="track_type")
     work = models.CharField(blank=True, null=True, max_length=255)
-    year = models.ForeignKey(Year, blank=True, null=True, related_name="track_year")
+    year = models.ForeignKey(Year, blank=True, null=True)
 
     def get_artist(self):
         if self.artist:

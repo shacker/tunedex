@@ -61,6 +61,7 @@ class Command(BaseCommand):
         self.import_songs(**options)
         self.import_playlists(**options)
         self.update_snapshot_time()
+        self.cleanup()  # Post-run tasks
         self.report()
 
     def clear_db(self):
@@ -219,6 +220,15 @@ class Command(BaseCommand):
                 except Track.DoesNotExist:  # During partial runs, tracks to add won't exist yet
                     pass
             PlaylistEntry.objects.bulk_create(entries)
+
+    def cleanup(self):
+        '''
+        Post-sync tasks
+        '''
+        print("Deleting unused Years...")
+        for year in Year.objects.all():
+            if year.track_set.all().count() == 0:
+                year.delete()
 
     def update_snapshot_time(self):
         # Update snapshot timestamp
