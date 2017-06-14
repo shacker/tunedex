@@ -10,7 +10,7 @@ from django.db.utils import DataError
 
 from libpytunes import Library
 
-from itl.models import Artist, Album, Track, Genre, Kind, TrackType, Playlist, PlaylistEntry, LibraryData
+from itl.models import Artist, Album, Track, Genre, Kind, TrackType, Playlist, PlaylistEntry, LibraryData, Year
 from pytz.exceptions import AmbiguousTimeError
 
 
@@ -57,6 +57,7 @@ class Command(BaseCommand):
         self.itl = itl
 
         self.clear_db()
+        self.create_years()
         self.import_songs(**options)
         self.import_playlists(**options)
         self.update_snapshot_time()
@@ -64,6 +65,7 @@ class Command(BaseCommand):
 
     def clear_db(self):
         # Fresh start every time
+        Year.objects.all().delete()
         Kind.objects.all().delete()
         Album.objects.all().delete()
         Artist.objects.all().delete()
@@ -72,6 +74,20 @@ class Command(BaseCommand):
         PlaylistEntry.objects.all().delete()
         Playlist.objects.all().delete()
         Track.objects.all().delete()
+
+    def create_years(self):
+        '''
+        Rather get_or_create() the year for each track (which is expensive), generate all years in advance,
+        then trim the unused ones later.
+        '''
+        years = []
+        for year in range(1850, 2030):
+            years.append(Year(
+                id=year,
+                year=year,
+                )
+            )
+        Year.objects.bulk_create(years)
 
     def import_songs(self, **options):
         '''
@@ -119,6 +135,11 @@ class Command(BaseCommand):
             if song.kind:
                 kind, created = Kind.objects.get_or_create(name=song.kind)
 
+            try:
+                track_year = Year.objects.get(id=song.year)
+            except Year.DoesNotExist:
+                track_year = None
+
             track_data = {
                 'album': album,
                 'artist': artist,
@@ -152,7 +173,7 @@ class Command(BaseCommand):
                 'track_number': song.track_number,
                 'track_type': track_type,
                 'work': song.work,
-                'year': song.year,
+                'year': track_year,
             }
 
             try:
@@ -188,12 +209,15 @@ class Command(BaseCommand):
 
             print("Adding tracks to playlist {0}".format(pl.name))
             for itl_trak in pl.tracks:
-                entries.append(PlaylistEntry(
-                    track=Track.objects.get(persistent_id=itl_trak.persistent_id),
-                    playlist=playlist,
-                    playlist_order=itl_trak.playlist_order
+                try:
+                    entries.append(PlaylistEntry(
+                        track=Track.objects.get(persistent_id=itl_trak.persistent_id),
+                        playlist=playlist,
+                        playlist_order=itl_trak.playlist_order
+                        )
                     )
-                )
+                except Track.DoesNotExist:  # During partial runs, tracks to add won't exist yet
+                    pass
             PlaylistEntry.objects.bulk_create(entries)
 
     def update_snapshot_time(self):

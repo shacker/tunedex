@@ -1,6 +1,18 @@
 from django.db import models
 
 
+class Year(models.Model):
+    year = models.PositiveSmallIntegerField(null=True, blank=True)
+
+    def __str__(self):
+        return self.year
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['year', ]),
+        ]
+
+
 class Artist(models.Model):
     name = models.CharField(default="Artist Unknown", max_length=255)
 
@@ -118,7 +130,7 @@ class Track(models.Model):
     track_count = models.IntegerField(null=True, blank=True)
     track_type = models.ForeignKey(TrackType, blank=True, null=True, related_name="track_type")
     work = models.CharField(blank=True, null=True, max_length=255)
-    year = models.PositiveSmallIntegerField(null=True, blank=True)
+    year = models.ForeignKey(Year, blank=True, null=True, related_name="track_year")
 
     def get_artist(self):
         if self.artist:
