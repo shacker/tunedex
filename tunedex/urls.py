@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^charts/kinds_donut/$', views.kinds_donut, name='kinds_donut'),
     url(r'^charts/most_played_bar/$', views.most_played_bar, name='most_played_bar'),
     url(r'^charts/kinds_area/$', views.kinds_area, name='kinds_area'),
+    url(r'^charts/years_cloud/$', views.years_cloud, name='years_cloud'),
 
     # JSON views
     url(r'^json/genres_data/(?P<num_genres>\d+)/$', json_views.genres_data, name='genres_data'),
@@ -31,6 +32,7 @@ urlpatterns = [
     url(r'^json/kinds_data/(?P<num_kinds>\d+)/$', json_views.kinds_data, name='kinds_data'),
     url(r'^json/most_played_data/(?P<num_tracks>\d+)/$', json_views.most_played_data, name='most_played_data'),
     url(r'^json/media_formats_data/$', json_views.media_formats, name='media_formats'),
+    url(r'^json/years_data/$', json_views.years_data, name='years_data'),
 
     url(r'^admin/', admin.site.urls),
 ]

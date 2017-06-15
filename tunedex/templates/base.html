@@ -16,6 +16,19 @@
 
     <title>{% block title %}Tunedex - {% endblock title %}</title>
 
+    <script src="{% static "theme/vendor/jquery/jquery.min.js" %}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{% static "theme/vendor/bootstrap/js/bootstrap.min.js" %}"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="{% static "theme/vendor/metisMenu/metisMenu.min.js" %}"></script>
+
+    <!-- Morris Charts JavaScript -->
+    <script src="{% static "theme/vendor/raphael/raphael.min.js" %}"></script>
+    <script src="{% static "theme/vendor/morrisjs/morris.min.js" %}"></script>
+    <script src="{% static "js/randomColor.js" %}"></script>
+
     <!-- Bootstrap Core CSS -->
     <link href="{% static "theme/vendor/bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
 
@@ -40,6 +53,9 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    {% block extra_head %}
+    {% endblock extra_head %}
 
 </head>
 
@@ -131,7 +147,9 @@
                                 <li>
                                     <a href="{% url 'kinds_area' %}">Formats (Kinds)</a>
                                 </li>
-
+                                <li>
+                                    <a href="{% url 'years_cloud' %}">Years</a>
+                                </li>
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
@@ -151,30 +169,18 @@
     </div>
     <!-- /#wrapper -->
 
-    <script src="{% static "theme/vendor/jquery/jquery.min.js" %}"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="{% static "theme/vendor/bootstrap/js/bootstrap.min.js" %}"></script>
-
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="{% static "theme/vendor/metisMenu/metisMenu.min.js" %}"></script>
-
-    <!-- Morris Charts JavaScript -->
-    <script src="{% static "theme/vendor/raphael/raphael.min.js" %}"></script>
-    <script src="{% static "theme/vendor/morrisjs/morris.min.js" %}"></script>
-    <script src="{% static "js/randomColor.js" %}"></script>
-
     <script>
-        $('#search_button').on('click', function () {
-            var url = "/tracks/?q=" + $('#search_q').val();
-            window.location = url;
+        $( document ).ready(function() {
+            $('#search_button').on('click', function () {
+                var url = "/tracks/?q=" + $('#search_q').val();
+                window.location = url;
+            });
+            $("#search_q").keyup(function(event){
+                if(event.keyCode == 13){
+                    $("#search_button").click();
+                }
+            });
         });
-        $("#search_q").keyup(function(event){
-            if(event.keyCode == 13){
-                $("#search_button").click();
-            }
-        });
-
     </script>
 
     {% block extra_js %}

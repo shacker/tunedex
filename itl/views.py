@@ -148,3 +148,7 @@ def most_played_bar(request):
 
 def kinds_area(request):
     return render(request, 'itl/chart_kinds_area.html', locals())
+
+
+def years_cloud(request):
+    return render(request, 'itl/chart_years_cloud.html', locals())

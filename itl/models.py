@@ -5,7 +5,7 @@ class Year(models.Model):
     year = models.PositiveSmallIntegerField(null=True, blank=True)
 
     def __str__(self):
-        return self.year
+        return str(self.year)
 
     class Meta:
         indexes = [

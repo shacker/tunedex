@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}{{ block.super }} Top Years (Cloud){% endblock title %}
+
+{% block extra_head %}
+    <script src="/static/js/jqcloud.min.js"></script>
+    <link rel="stylesheet" href="/static/js/jqcloud.min.css">
+{% endblock extra_head %}
+
+{% block content %}
+
+    <h1>Top Years</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10">
+                <p><small><em>Larger = More tracks recorded in that year. Click years for details.</em></small></p>
+                <div id="top-years-chart"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        $(document).ready(function() {
+            $.getJSON("/json/years_data/", function (json) {
+                $('#top-years-chart').jQCloud(json, {
+                    width: 640,
+                    height: 500,
+                    shape: 'elliptical'
+                });
+            })
+        });
+    </script>
+{% endblock extra_js %}

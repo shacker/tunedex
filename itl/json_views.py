@@ -1,10 +1,7 @@
-from itertools import chain
-
 from django.http import JsonResponse
 from django.db.models import Count
-from django.db.models import Q
 
-from itl.models import Genre, Kind, Track
+from itl.models import Genre, Kind, Track, Year
 
 
 def genres_data(request, num_genres=None):
@@ -56,5 +53,24 @@ def media_formats(request):
         'labels': years,
         'datasets': datasets
     }
+
+    return JsonResponse(data, safe=False)
+
+
+def years_data(request):
+    # Generate data to show most popular years
+    years = Year.objects.annotate(num_tracks=Count('track')).order_by('-num_tracks')
+
+    '''
+    data = [
+      {"year": "1981", "num_tracks": 13, "link": 'http://github.com/mistic100/jQCloud'},
+      {"year": "1965", "num_tracks": 10.5, "link": 'http://www.strangeplanet.fr'},
+      {"year": "2017", "num_tracks": 9.4, "link": 'http://piwigo.org'},
+    ]
+    '''
+
+    data = []
+    for year in years:
+        data.append({"text": year.id, "weight": year.num_tracks, "link": "/tracks/?year={}".format(year.id)})
 
     return JsonResponse(data, safe=False)
