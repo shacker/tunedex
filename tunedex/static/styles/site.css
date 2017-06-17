@@ -6,6 +6,6 @@
     color: #f5f5e1;
 }
 
-.nav>li>a:hover, .navbar .open>a:focus {
+.navbar-top-links>li>a:hover, .navbar .open>a:focus {
     background-color: #6277aa;
 }
