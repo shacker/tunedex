@@ -5,6 +5,9 @@
 
 {% block content %}
     <h1>Tracks</h1>
+    {% if q %}
+        <p>Filtered by: "{{ q }}"</p>
+    {% endif %}
 
     <p>{{ tracks.paginator.count }} results</p>
     <form class="form-inline" style="margin-bottom: 10px;">
