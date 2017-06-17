@@ -136,16 +136,19 @@
                             <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="{% url 'genres_donut' %}">Genres</a>
-                                </li>
-                                <li>
-                                    <a href="{% url 'kinds_donut' %}">Kinds</a>
-                                </li>
-                                <li>
                                     <a href="{% url 'most_played_bar' %}">Most-Played</a>
                                 </li>
                                 <li>
-                                    <a href="{% url 'kinds_area' %}">Formats (Kinds)</a>
+                                    <a href="{% url 'artists_pie' %}">Artists</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'genres_donut' %}">Genres</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'kinds_donut' %}">Formats (Donut)</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'kinds_area' %}">Formats (Area)</a>
                                 </li>
                                 <li>
                                     <a href="{% url 'years_cloud' %}">Years</a>

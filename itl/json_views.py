@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.db.models import Count
 
-from itl.models import Genre, Kind, Track, Year
+from itl.models import Genre, Kind, Track, Year, Artist
 
 
 def genres_data(request, num_genres=None):
@@ -54,6 +54,36 @@ def media_formats(request):
         'datasets': datasets
     }
 
+    return JsonResponse(data, safe=False)
+
+
+def artists_data(request):
+    '''
+    Get most-used Artists by counting tracks belonging to them.
+    '''
+
+    num_slices = 20
+    excluded = ['Various Artists', 'Grateful Dead']
+    # excluded = []
+    artists = (
+        Artist.objects.exclude(
+            name__in=excluded).annotate(
+            num_tracks=Count('track')).order_by(
+            '-num_tracks')[:num_slices]
+        )
+
+    from palettable.cmocean.sequential import Haline_20 as pal
+    colors = pal.colors[:num_slices]
+    colorvals = ['rgba({r}, {g}, {b}, {a})'.format(r=val[0], g=val[1], b=val[2], a=0.75) for val in colors]
+
+    data = {
+        'labels': [artist.name for artist in artists],
+        'datasets': [
+            {
+                "data": [artist.num_tracks for artist in artists],
+                "backgroundColor": colorvals}
+            ]
+    }
     return JsonResponse(data, safe=False)
 
 

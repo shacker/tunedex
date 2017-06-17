@@ -152,3 +152,7 @@ def kinds_area(request):
 
 def years_cloud(request):
     return render(request, 'itl/chart_years_cloud.html', locals())
+
+
+def artists_pie(request):
+    return render(request, 'itl/chart_artists_pie.html', locals())

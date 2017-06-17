@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load cache %}
+
+{% block title %}{{ block.super }} Formats (Kinds){% endblock title %}
+
+{% block content %}
+    {% cache 60 * 60 chart_kinds_area %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.min.js"></script>
+
+    <h1>Artists by Track Occurrence</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <canvas id="artists-pie-chart" ></canvas>
+            </div>
+        </div>
+    </div>
+    {% endcache %}
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        $.getJSON("/json/artists_pie/", function (json) {
+            var data = {
+                labels: json.labels,
+                datasets: json.datasets
+            };
+
+            function graphClickEvent(event, array) {
+                idx = array[0]._index;
+                artist_name = (data.labels[idx]);
+                window.location = "/tracks/?q=" + artist_name;
+            }
+
+            var canvas = document.getElementById("artists-pie-chart");
+            var ctx = canvas.getContext('2d');
+            var options = {
+                title: {
+                  display: true,
+                  text: 'Hover for numbers. Click legends to filter.'
+                },
+                legend: {
+                    display: true
+                },
+                onClick: graphClickEvent  // Click to URL
+            }
+            var myPieChart = new Chart(ctx,{
+                type: 'pie',
+                data: data,
+                options: options
+            });
+        });
+    </script>
+{% endblock extra_js %}
