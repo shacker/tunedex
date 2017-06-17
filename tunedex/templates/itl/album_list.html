@@ -14,8 +14,8 @@
             {% for album in album_list %}
             <tr>
                 <td><a href="{% url 'album_detail' album.id %}">{{ album.title }}</a></td>
-                <td>{{ album.artist }}</td>
-                <td>{{ album.year }}</td>
+                <td><a href="{% url 'artist_detail' album.artist.id %}">{{ album.artist }}</a></td>
+                <td>{% if album.year %}<a href="{% url 'tracks' %}?year={{album.year}}">{{ album.year }}</a>{% endif %}</td>
             </tr>
             {% endfor %}
         </table>
