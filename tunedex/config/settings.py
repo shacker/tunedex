@@ -146,8 +146,3 @@ STATICFILES_DIRS = [
 ]
 
 NUM_TRACKS_PER_PLAYLIST_PAGE = 100
-
-try:
-    from tunedex.local import *
-except:
-    pass
