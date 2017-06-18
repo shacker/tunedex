@@ -21,7 +21,7 @@ PICKLE_AGE = 60 * 60 * 24 * 30  # Refresh pickled file if older than
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'overrid_in_local'
+SECRET_KEY = 'override_in_local'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
