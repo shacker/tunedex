@@ -1,5 +1,6 @@
 from tunedex.config.settings import *
 
+DEBUG = True
 
 DATABASES = {
     'default': {
