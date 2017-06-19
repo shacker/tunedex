@@ -9,10 +9,39 @@ from itl.models import Album, Track, Kind, Artist, Playlist, LibraryData, Genre
 
 
 def dashboard(request):
-    artists_count = Artist.objects.all().count()
-    albums_count = Album.objects.all().count()
-    tracks_count = Track.objects.all().count()
-    playlists_count = Playlist.objects.all().count()
+    tracks = Track.objects.all()
+    artists = Artist.objects.all()
+    albums = Album.objects.all()
+    playlists = Playlist.objects.all()
+
+    artists_count = artists.count()
+    albums_count = albums.count()
+    tracks_count = tracks.count()
+    playlists_count = playlists.count()
+
+    loved_tracks_count = Track.objects.filter(loved=True).count()
+    loved_tracks_percent = int(round((loved_tracks_count / tracks_count) * 100, 0))
+    loved_albums_count = Album.objects.filter(album_loved=True).count()
+    loved_albums_percent = int(round((loved_albums_count / albums_count) * 100, 0))
+
+    oldest_track = tracks.exclude(date_added__isnull=True).order_by('date_added').first()
+    newest_track = tracks.exclude(date_added__isnull=True).order_by('-date_added').first()
+
+    unplayed_count = tracks.filter(play_count__isnull=True).count()
+    unplayed_percent = int(round((unplayed_count / tracks_count) * 100, 0))
+
+    lossless_tracks = tracks.filter(
+        Q(kind__name__iexact="AAC audio file") |
+        Q(kind__name__iexact="Apple Music AAC audio file") |
+        Q(kind__name__iexact="Purchased AAC audio file")
+    )
+
+    lossless_count = lossless_tracks.count()
+    lossless_percent = int(round((lossless_count / tracks_count) * 100, 0))
+
+    rated_tracks_count = tracks.filter(rating__isnull=False).count()
+    rated_tracks_percent = int(round((rated_tracks_count / tracks_count) * 100, 0))
+
     sitemeta, created = LibraryData.objects.get_or_create(pk=1)
     return render(request, 'dashboard.html', locals(),)
 
@@ -63,6 +92,8 @@ def track_list(request):
     genre = request.GET.get('genre')
     kind = request.GET.get('kind')
     q = request.GET.get('q')
+    playcount = request.GET.get('playcount')
+
     if q:
 
         # SearchVector with annotate is slow for now: https://code.djangoproject.com/ticket/27719
@@ -86,6 +117,12 @@ def track_list(request):
     if kind:
         kind = int(kind)
         qs = qs.filter(kind__id=kind)
+    if playcount:
+        playcount = int(playcount)
+        if playcount == 0:
+            qs = qs.filter(play_count__isnull=True)
+        else:
+            qs = qs.filter(play_count=playcount)
 
     qs = qs.order_by('title')
 
